@@ -6,9 +6,14 @@ import { Building, Crown, Plus, Sparkles, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
-
+import { SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs";
+import { Authenticated, Unauthenticated } from "convex/react";
+import { BarLoader } from "react-spinners";
+import { useStoreUser } from "@/hooks/use-store-user";
 export default function Header() {
-  
+
+  const { isLoading, isAuthenticated } = useStoreUser();
+
 
   return (
     <>
@@ -26,8 +31,46 @@ export default function Header() {
             />
           </Link>
 
-         </div>
+          
+
+          <div className="flex items-center">
+            {/* Show Pro badge or Upgrade button */}
+            {!hasPro && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowUpgradeModal(true)}
+              >
+                Pricing
+              </Button>
+            )}
+
+            <Button variant="ghost" size="sm" asChild className={"mr-2"}>
+              <Link href="/explore">Explore</Link>
+            </Button>
+
+          {/* Auth buttons */}
+            <Authenticated>
+              <Button variant="ghost" size="sm" asChild className={"mr-2"}>
+                <Link href="/dashboard">C</Link>
+              </Button>
+              <UserButton />
+            </Authenticated>
+            <Unauthenticated>
+              <Button size="sm">
+                <SignInButton mode="modal" className="cursor-pointer"/>
+              </Button>
+            </Unauthenticated>
+          </div>
+        </div>
+
+        {/* {Loader} */}
+        {isLoading && (
+          <div className="absolute bottom-0 left-0 w-full">
+            <BarLoader width={"100%"} color="#fff"/>
+          </div>
+        )}
       </nav>
-      </>
+    </>
   );
 }

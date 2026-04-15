@@ -1,8 +1,11 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/themeProvider";
+import { ConvexClientProvider } from "./ConvexClientProvider";
+import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { dark } from '@clerk/themes'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,18 +26,24 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en" suppressHydrationWarning>
-      <body className={`bg-linear-to-br from-grey-950 via-zinc-900 to-stone-900 text-white`}>
-    <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+      <body className={`bg-linear-to-br from-gray-950 via-zinc-900 to-stone-900 text-white`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ClerkProvider
+            appearance={{
+              theme: dark,
+            }}
           >
-            <Header />
+            <ConvexClientProvider>
+              <Header />
 
-        <main className="relative min-h-screen container mx-auto pt-40 md:pt-32">
-          {/* Background glow effects (behind everything) */}
-          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+              <main className="relative min-h-screen container mx-auto pt-40 md:pt-32">
+                {/* Background glow effects (behind everything) */}
+                <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
                   <div className="absolute top-0 left-1/4 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl" />
                   <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl" />
                 </div>
@@ -44,8 +53,10 @@ export default function RootLayout({ children }) {
 
                 <Footer />
               </main>
-              </ThemeProvider>
+            </ConvexClientProvider>
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
-    </html>
+    </html >
   );
 }
