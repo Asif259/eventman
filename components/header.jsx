@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { Building, Crown, Plus, Sparkles, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Badge } from "./ui/badge";
-import { SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs";
+import { SignInButton, UserButton } from "@clerk/nextjs";
 import { Authenticated, Unauthenticated } from "convex/react";
 import { BarLoader } from "react-spinners";
 import { useStoreUser } from "@/hooks/use-store-user";
+import { useState } from "react";
+import { Plus, Ticket, Building } from "lucide-react";
 export default function Header() {
 
   const { isLoading, isAuthenticated } = useStoreUser();
-
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   return (
     <>
@@ -33,32 +33,43 @@ export default function Header() {
 
           
 
-          <div className="flex items-center">
-            {/* Show Pro badge or Upgrade button */}
-            {!hasPro && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowUpgradeModal(true)}
-              >
-                Pricing
-              </Button>
-            )}
+          <div className="flex items-center gap-1">
+            {/* Nav links */}
+            <Button variant="ghost" size="sm" onClick={() => setShowUpgradeModal(true)}>
+              <Link href="/pricing">Pricing</Link>
+            </Button>
 
-            <Button variant="ghost" size="sm" asChild className={"mr-2"}>
+            <Button variant="ghost" size="sm" className={"mr-2"}>
               <Link href="/explore">Explore</Link>
             </Button>
 
-          {/* Auth buttons */}
+            {/* Auth buttons */}
             <Authenticated>
-              <Button variant="ghost" size="sm" asChild className={"mr-2"}>
-                <Link href="/dashboard">C</Link>
+              <Button variant="ghost" size="sm" className={"mr-2"}>
+                <Link href="/create-event" className="flex gap-2 mr-4 items-center">
+                  <Plus className="h-4 w-4"/>
+                   <span className="hidden sm:inline">Create Event</span>
+                </Link>
               </Button>
-              <UserButton />
+              <UserButton>
+               <UserButton.MenuItems>
+                  <UserButton.Link
+                    label="My Tickets"
+                    labelIcon={<Ticket size={16} />}
+                    href="/my-tickets"
+                  />
+                  <UserButton.Link
+                    label="My Events"
+                    labelIcon={<Building size={16} />}
+                    href="/my-events"
+                  />
+                  <UserButton.Action label="manageAccount" />
+                </UserButton.MenuItems>
+              </UserButton>
             </Authenticated>
             <Unauthenticated>
               <Button size="sm">
-                <SignInButton mode="modal" className="cursor-pointer"/>
+                <SignInButton mode="modal" className="cursor-pointer" />
               </Button>
             </Unauthenticated>
           </div>
