@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { dark } from '@clerk/themes'
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +27,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en" suppressHydrationWarning>
-      <body className={`bg-linear-to-br from-gray-950 via-zinc-900 to-stone-900 text-white`}>
+      <body className={`bg-linear-to-br from-gray-950 via-zinc-900 to-stone-900 text-white`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -52,6 +53,7 @@ export default function RootLayout({ children }) {
                 <div className="relative z-10">{children}</div>
 
                 <Footer />
+                <Toaster richColors/>
               </main>
             </ConvexClientProvider>
           </ClerkProvider>
