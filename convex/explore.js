@@ -37,7 +37,7 @@ export const getEventsByLocation = query({
 
         // Filter by city or state
         if (args.city) {
-            events = events.filter((event) => event.city.toLowerCase() === args.city.toLowerCase());
+            events = events.filter((event) => event.city?.toLowerCase() === args.city.toLowerCase());
         }
 
         if (args.state) {
@@ -61,6 +61,13 @@ export const getPopularEvents = query({
             .withIndex("by_start_date", (q) => q.gte("startDate", now))
             .order("desc")
             .collect();
+
+        if (args.city) {
+            events = events.filter((event) => event.city?.toLowerCase() === args.city.toLowerCase());
+        }
+        if (args.state) {
+            events = events.filter((event) => event.state?.toLowerCase() === args.state.toLowerCase());
+        }
 
         // Sort by registration count
         const popular = events

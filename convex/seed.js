@@ -674,6 +674,10 @@ export const run = internalMutation({
       organizer = await ctx.db.get(organizerId);
     }
 
+    if (!organizer) {
+      throw new Error("Failed to read or insert an organizer user.");
+    }
+
     const createdEvents = [];
 
     for (const eventData of SAMPLE_EVENTS) {

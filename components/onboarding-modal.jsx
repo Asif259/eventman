@@ -32,25 +32,25 @@ export default function OnboardingModal({ isOpen, onClose, onComplete }) {
   const [location, setLocation] = useState({
     state: "",
     city: "",
-    country: "India",
+    country: "Bangladesh",
   });
 
   const { mutate: completeOnboarding, isLoading } = useConvexMutation(
     api.users.completeOnboarding
   );
 
-  // Get Indian states
-  const indianStates = useMemo(() => {
-    return State.getStatesOfCountry("IN");
+  // Get Bangladeshi states
+  const bangladeshiStates = useMemo(() => {
+    return State.getStatesOfCountry("BD");
   }, []);
 
   // Get cities based on selected state
   const cities = useMemo(() => {
     if (!location.state) return [];
-    const selectedState = indianStates.find((s) => s.name === location.state);
+    const selectedState = bangladeshiStates.find((s) => s.name === location.state);
     if (!selectedState) return [];
-    return City.getCitiesOfState("IN", selectedState.isoCode);
-  }, [location.state, indianStates]);
+    return City.getCitiesOfState("BD", selectedState.isoCode);
+  }, [location.state, bangladeshiStates]);
 
   const toggleInterest = (categoryId) => {
     setSelectedInterests((prev) =>
@@ -177,7 +177,7 @@ export default function OnboardingModal({ isOpen, onClose, onComplete }) {
                       <SelectValue placeholder="Select state" />
                     </SelectTrigger>
                     <SelectContent>
-                      {indianStates.map((state) => (
+                      {bangladeshiStates.map((state) => (
                         <SelectItem key={state.isoCode} value={state.name}>
                           {state.name}
                         </SelectItem>

@@ -15,6 +15,7 @@ export default function EventCard({
   variant = "grid", // "grid" or "list"
   action = null, // "event" | "ticket" | null
   className = "",
+  onAction,
 }) {
   // List variant (compact horizontal layout)
   if (variant === "list") {
@@ -138,7 +139,7 @@ export default function EventCard({
               className="flex-1 gap-2"
               onClick={(e) => {
                 e.stopPropagation();
-                onClick?.(e);
+                onAction?.(e);
               }}
             >
               {action === "event" ? (

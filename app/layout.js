@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { dark } from '@clerk/themes'
+import OnboardingWrapper from "@/components/onboarding-wrapper";
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
 
                 <Footer />
                 <Toaster richColors/>
+                <OnboardingWrapper />
               </main>
             </ConvexClientProvider>
           </ClerkProvider>

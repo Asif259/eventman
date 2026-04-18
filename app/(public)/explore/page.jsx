@@ -37,8 +37,8 @@ export default function ExplorePage() {
   const { data: localEvents, isLoading: loadingLocal } = useConvexQuery(
     api.explore.getEventsByLocation,
     {
-      city: currentUser?.location?.city || "Dhaka",
-      state: currentUser?.location?.state || "Dhaka",
+      city: currentUser?.location?.city || "New Delhi",
+      state: currentUser?.location?.state || "Delhi",
       limit: 4,
     }
   );
@@ -61,8 +61,8 @@ export default function ExplorePage() {
   };
 
   const handleViewLocalEvents = () => {
-    const city = currentUser?.location?.city || "Dhaka";
-    const state = currentUser?.location?.state || "Dhaka";
+    const city = currentUser?.location?.city || "New Delhi";
+    const state = currentUser?.location?.state || "Delhi";
     const slug = createLocationSlug(city, state);
     router.push(`/explore/${slug}`);
   };
@@ -91,7 +91,7 @@ export default function ExplorePage() {
         <h1 className="text-5xl md:text-6xl font-bold mb-4">Discover Events</h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
           Explore featured events, find what&apos;s happening locally, or browse
-          events across India
+          events across {currentUser?.location?.country || "India"}
         </p>
       </div>
 
@@ -230,10 +230,10 @@ export default function ExplorePage() {
         <div className="mb-20">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
-              <h2 className="text-3xl font-bold mb-2">Popular Across Bangladesh</h2>
+              <h2 className="text-3xl font-bold mb-2">Popular Across {currentUser?.location?.country || "India"}</h2>
               <p className="text-zinc-400">Trending events nationwide</p>
             </div>
-            <Button variant="ghost" className="gap-2 shrink-0 md:self-end text-purple-400 hover:text-purple-300">
+            <Button variant="ghost" className="gap-2 shrink-0 md:self-end text-purple-400 hover:text-purple-300" onClick={() => router.push('/events')}>
               View All <ArrowRight className="w-4 h-4" />
             </Button>
           </div>

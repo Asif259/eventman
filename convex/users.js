@@ -1,4 +1,6 @@
 import { mutation, query } from "./_generated/server";
+import { v } from "convex/values";
+import { api } from "./_generated/api";
 
 export const store = mutation({
   args: {},
@@ -21,8 +23,9 @@ export const store = mutation({
       .unique();
     if (user !== null) {
       // If we've seen this identity before but the name has changed, patch the value.
-      if (user.name !== identity.name) {
-        await ctx.db.patch(user._id, { name: identity.name });
+      const newName = identity.name ?? "Anonymous";
+      if (user.name !== newName) {
+        await ctx.db.patch(user._id, { name: newName });
       }
       return user._id;
     }
@@ -76,7 +79,7 @@ export const completeOnboarding = mutation({
     interests: v.array(v.string()), // Min 3 categories
   },
   handler: async (ctx, args) => {
-    const user = await ctx.runQuery(internal.users.getCurrentUser);
+    const user = await ctx.runQuery(api.users.getCurrentUser);
 
     await ctx.db.patch(user._id, {
       location: args.location,

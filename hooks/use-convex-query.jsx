@@ -13,15 +13,14 @@ export const useConvexQuery = (query, ...args) => {
         if (result === undefined) {
             setIsLoading(true);
         } else {
-            try {
+            if (result && result.error) {
+                setError(result.error);
+                toast.error(result.error.message || "An error occurred");
+            } else {
                 setData(result);
                 setError(null);
-            } catch (error) {
-                setError(error);
-                toast.error(error.message);
-            } finally {
-                setIsLoading(false);
             }
+            setIsLoading(false);
         }
     }, [result]);
 
@@ -31,7 +30,7 @@ export const useConvexQuery = (query, ...args) => {
 
 export const useConvexMutation = (mutation) => {
     const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const result = useMutation(mutation);

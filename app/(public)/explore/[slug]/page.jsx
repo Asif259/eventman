@@ -20,9 +20,9 @@ export default function DynamicExplorePage() {
   const isCategory = !!categoryInfo;
 
   // If not a category, validate location
-  const { city, state, isValid } = !isCategory
+  const { city, state, country, isValid } = !isCategory
     ? parseLocationSlug(slug)
-    : { city: null, state: null, isValid: false };
+    : { city: null, state: null, country: null, isValid: false };
 
   // If it's not a valid category and not a valid location, show 404
   if (!isCategory && !isValid) {
@@ -104,7 +104,7 @@ export default function DynamicExplorePage() {
           <div className="text-6xl">📍</div>
           <div>
             <h1 className="text-5xl md:text-6xl font-bold">Events in {city}</h1>
-            <p className="text-lg text-muted-foreground mt-2">{state}, India</p>
+            <p className="text-lg text-muted-foreground mt-2">{state}, {country}</p>
           </div>
         </div>
 
