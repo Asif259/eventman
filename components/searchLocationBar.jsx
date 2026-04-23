@@ -24,6 +24,7 @@ import {
 export default function SearchLocationBar() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
   const searchRef = useRef(null);
 
@@ -71,18 +72,22 @@ export default function SearchLocationBar() {
   }, [selectedState, bangladeshiStates]);
 
   const debouncedSetQuery = useRef(
-    debounce((value) => setSearchQuery(value), 300)
+    debounce((value) => {
+      setSearchQuery(value);
+      setShowSearchResults(value.length >= 2);
+    }, 300)
   ).current;
 
   const handleSearchInput = (e) => {
     const value = e.target.value;
+    setInputValue(value);
     debouncedSetQuery(value);
-    setShowSearchResults(value.length >= 2);
   };
 
   const handleEventClick = (slug) => {
     setShowSearchResults(false);
     setSearchQuery("");
+    setInputValue("");
     router.push(`/events/${slug}`);
   };
 
@@ -112,18 +117,19 @@ export default function SearchLocationBar() {
   }, []);
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-stretch rounded-lg border border-input overflow-hidden bg-transparent focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 transition-colors">
       {/* Search Bar */}
-      <div className="relative flex w-full" ref={searchRef}>
-        <div className="flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+      <div className="relative flex flex-1" ref={searchRef}>
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
           <Input
+            value={inputValue}
             placeholder="Search events..."
             onChange={handleSearchInput}
             onFocus={() => {
               if (searchQuery.length >= 2) setShowSearchResults(true);
             }}
-            className="pl-10 w-full h-9 rounded-none rounded-l-md"
+            className="pl-10 w-full h-9 border-0 rounded-none shadow-none focus-visible:ring-0 focus-visible:border-0"
           />
         </div>
 
@@ -132,7 +138,7 @@ export default function SearchLocationBar() {
           <div className="absolute top-full mt-2 w-96 bg-background border rounded-lg shadow-lg z-50 max-h-[400px] overflow-y-auto">
             {searchLoading ? (
               <div className="p-4 flex items-center justify-center">
-                <Loader2 className="w-5 h-5 animate-spin text-purple-500" />
+                <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
               </div>
             ) : searchResults && searchResults.length > 0 ? (
               <div className="py-2">
@@ -178,6 +184,9 @@ export default function SearchLocationBar() {
         )}
       </div>
 
+      {/* Divider */}
+      <div className="w-px bg-input self-stretch" />
+
       {/* State Select */}
       <Select
         value={selectedState}
@@ -186,7 +195,7 @@ export default function SearchLocationBar() {
           setSelectedCity("");
         }}
       >
-        <SelectTrigger className="w-32 h-9 border-l-0 rounded-none">
+        <SelectTrigger className="w-32 h-9 py-1 border-0 rounded-none shadow-none focus-visible:ring-0">
           <SelectValue placeholder="State" />
         </SelectTrigger>
         <SelectContent>
@@ -199,6 +208,9 @@ export default function SearchLocationBar() {
         </SelectContent>
       </Select>
 
+      {/* Divider */}
+      <div className="w-px bg-input self-stretch" />
+
       {/* City Select */}
       <Select
         value={selectedCity}
@@ -210,7 +222,7 @@ export default function SearchLocationBar() {
         }}
         disabled={!selectedState}
       >
-        <SelectTrigger className="w-32 h-9 rounded-none rounded-r-md ">
+        <SelectTrigger className="w-32 h-9 py-1 border-0 rounded-none shadow-none focus-visible:ring-0">
           <SelectValue placeholder="City" />
         </SelectTrigger>
         <SelectContent>
