@@ -9,7 +9,8 @@ import { Authenticated, Unauthenticated } from "convex/react";
 import { BarLoader } from "react-spinners";
 import { useStoreUser } from "@/hooks/use-store-user";
 import { useState } from "react";
-import { Plus, Ticket, Building } from "lucide-react";
+import { Plus, Ticket, Building, LogIn } from "lucide-react";
+import SearchLocationBar from "@/components/searchLocationBar";
 export default function Header() {
 
   const { isLoading, isAuthenticated } = useStoreUser();
@@ -31,6 +32,10 @@ export default function Header() {
             />
           </Link>
 
+        {/* Search bar */}
+        <div className="hidden md:flex flex-1 justify-center">
+        <SearchLocationBar />
+        </div>
           
 
           <div className="flex items-center gap-1">
@@ -73,6 +78,11 @@ export default function Header() {
               </Button>
             </Unauthenticated>
           </div>
+        </div>
+
+      {/*  mobile Search Bar */}
+        <div className="md:hidden borter-t px-3 py-3">
+        <SearchLocationBar />
         </div>
 
         {/* {Loader} */}
