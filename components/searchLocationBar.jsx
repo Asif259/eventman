@@ -4,12 +4,16 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Search, MapPin, Calendar, Loader2 } from "lucide-react";
-import { State, City } from "country-state-city";
 import { format } from "date-fns";
 import { useConvexQuery, useConvexMutation } from "@/hooks/use-convex-query";
 import { api } from "@/convex/_generated/api";
 import { createLocationSlug } from "@/lib/location-utils";
 import { getCategoryIcon } from "@/lib/data";
+import {
+  getBangladeshCities,
+  getBangladeshStates,
+  normalizeBangladeshState,
+} from "@/lib/bangladesh-locations";
 
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -40,14 +44,14 @@ export default function SearchLocationBar() {
     searchQuery.trim().length >= 2 ? { query: searchQuery, limit: 5 } : "skip"
   );
 
-  const bangladeshiStates = useMemo(() => State.getStatesOfCountry("BD"), []);
+  const bangladeshiStates = useMemo(() => getBangladeshStates(), []);
 
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
 
   useEffect(() => {
     if (currentUser?.location) {
-      setSelectedState(currentUser.location.state || "");
+      setSelectedState(normalizeBangladeshState(currentUser.location.state));
       setSelectedCity(currentUser.location.city || "");
     }
   }, [currentUser, isLoading]);
@@ -65,11 +69,8 @@ export default function SearchLocationBar() {
   }
 
   const cities = useMemo(() => {
-    if (!selectedState) return [];
-    const state = bangladeshiStates.find((s) => s.name === selectedState);
-    if (!state) return [];
-    return City.getCitiesOfState("BD", state.isoCode);
-  }, [selectedState, bangladeshiStates]);
+    return getBangladeshCities(selectedState);
+  }, [selectedState]);
 
   const debouncedSetQuery = useRef(
     debounce((value) => {
@@ -220,18 +221,31 @@ export default function SearchLocationBar() {
             handleLocationSelect(value, selectedState);
           }
         }}
-        disabled={!selectedState}
+        disabled={!selectedState || cities.length === 0}
       >
         <SelectTrigger className="w-32 h-9 py-1 border-0 rounded-none shadow-none focus-visible:ring-0">
-          <SelectValue placeholder="City" />
+          <SelectValue
+            placeholder={
+              !selectedState
+                ? "City"
+                : cities.length > 0
+                  ? "City"
+                  : "No cities"
+            }
+          />
         </SelectTrigger>
         <SelectContent>
-          {/* <SelectItem value="">City</SelectItem> */}
-          {cities.map((city) => (
-            <SelectItem key={city.name} value={city.name}>
-              {city.name}
+          {cities.length > 0 ? (
+            cities.map((city) => (
+              <SelectItem key={city.name} value={city.name}>
+                {city.name}
+              </SelectItem>
+            ))
+          ) : (
+            <SelectItem value="no-cities" disabled>
+              No cities available
             </SelectItem>
-          ))}
+          )}
         </SelectContent>
       </Select>
     </div>

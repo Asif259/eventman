@@ -5,7 +5,6 @@ import { MapPin, Heart, ArrowRight, ArrowLeft } from "lucide-react";
 import { useConvexMutation } from "@/hooks/use-convex-query";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
-import { State, City } from "country-state-city";
 import {
   Dialog,
   DialogContent,
@@ -25,6 +24,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CATEGORIES } from "@/lib/data";
+import {
+  getBangladeshCities,
+  getBangladeshStates,
+} from "@/lib/bangladesh-locations";
 
 export default function OnboardingModal({ isOpen, onClose, onComplete }) {
   const [step, setStep] = useState(1);
@@ -41,16 +44,14 @@ export default function OnboardingModal({ isOpen, onClose, onComplete }) {
 
   // Get Bangladeshi states
   const bangladeshiStates = useMemo(() => {
-    return State.getStatesOfCountry("BD");
+    return getBangladeshStates();
   }, []);
 
   // Get cities based on selected state
   const cities = useMemo(() => {
     if (!location.state) return [];
-    const selectedState = bangladeshiStates.find((s) => s.name === location.state);
-    if (!selectedState) return [];
-    return City.getCitiesOfState("BD", selectedState.isoCode);
-  }, [location.state, bangladeshiStates]);
+    return getBangladeshCities(location.state);
+  }, [location.state]);
 
   const toggleInterest = (categoryId) => {
     setSelectedInterests((prev) =>
@@ -193,12 +194,16 @@ export default function OnboardingModal({ isOpen, onClose, onComplete }) {
                     onValueChange={(value) =>
                       setLocation({ ...location, city: value })
                     }
-                    disabled={!location.state}
+                    disabled={!location.state || cities.length === 0}
                   >
                     <SelectTrigger id="city" className="h-11 w-full">
                       <SelectValue
                         placeholder={
-                          location.state ? "Select city" : "State first"
+                          !location.state
+                            ? "State first"
+                            : cities.length > 0
+                              ? "Select city"
+                              : "No cities available"
                         }
                       />
                     </SelectTrigger>

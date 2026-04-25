@@ -70,17 +70,15 @@ export default function Header() {
             </Button>
             )}
 
-            <Button asChild variant="ghost" size="default" className="hidden sm:flex hover:-translate-y-[1px] transition-transform duration-200">
-              <Link href="/explore">Explore</Link>
+            <Button render={<Link href="/explore" />} variant="ghost" size="default" className="hidden sm:flex hover:-translate-y-[1px] transition-transform duration-200">
+              Explore
             </Button>
 
             {/* Auth buttons */}
             <Authenticated>
-              <Button asChild variant="default" size="default" className="shadow-sm hover:shadow-md hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200">
-                <Link href="/create-event" className="flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  <span className="hidden sm:inline">Create Event</span>
-                </Link>
+              <Button render={<Link href="/create-event" className="flex items-center gap-2" />} variant="default" size="default" className="shadow-sm hover:shadow-md hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200">
+                <Plus className="h-4 w-4" />
+                <span className="hidden sm:inline">Create Event</span>
               </Button>
               <UserButton>
                 <UserButton.MenuItems>
@@ -99,9 +97,11 @@ export default function Header() {
               </UserButton>
             </Authenticated>
             <Unauthenticated>
-              <Button asChild size="default" className="shadow-sm hover:shadow-md hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200">
-                <SignInButton mode="modal" className="cursor-pointer" />
-              </Button>
+              <SignInButton mode="modal">
+                <Button size="default" className="cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200">
+                  Sign In
+                </Button>
+              </SignInButton>
             </Unauthenticated>
           </div>
         </div>
