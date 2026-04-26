@@ -71,9 +71,17 @@ const eventSchema = z.object({
     state: z.string().optional(),
     capacity: z.number().min(1, "Capacity must be at least 1"),
     ticketType: z.enum(["free", "paid"]).default("free"),
-    ticketPrice: z.number().optional(),
+    ticketPrice: z.union([z.number(), z.nan()]).optional(),
     coverImage: z.string().optional(),
     themeColor: z.string().default("#1e3a8a"),
+}).refine(data => {
+    if (data.ticketType === "paid") {
+        return typeof data.ticketPrice === 'number' && !isNaN(data.ticketPrice) && data.ticketPrice > 0;
+    }
+    return true;
+}, {
+    message: "Ticket price must be greater than 0 for paid events",
+    path: ["ticketPrice"]
 });
 
 export default function CreateEventPage() {
@@ -319,7 +327,7 @@ export default function CreateEventPage() {
                 </div>
 
                 {/* RIGHT: Form */}
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                <form onSubmit={handleSubmit(onSubmit, (errors) => console.log("Form Errors:", errors))} className="space-y-8">
                     {/* Title */}
                     <div>
                         <Input
@@ -569,12 +577,17 @@ export default function CreateEventPage() {
                         </div>
 
                         {ticketType === "paid" && (
-                            <Input
-                                type="number"
-                                placeholder="Ticket price ৳"
-                                {...register("ticketPrice", { valueAsNumber: true })}
-                                className={inputClasses}
-                            />
+                            <div className="space-y-1">
+                                <Input
+                                    type="number"
+                                    placeholder="Ticket price ৳"
+                                    {...register("ticketPrice", { valueAsNumber: true })}
+                                    className={inputClasses}
+                                />
+                                {errors.ticketPrice && (
+                                    <p className="text-sm text-red-300 font-medium">{errors.ticketPrice.message}</p>
+                                )}
+                            </div>
                         )}
                     </div>
 
@@ -596,7 +609,7 @@ export default function CreateEventPage() {
                     <Button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-6 text-lg rounded-xl bg-white text-black hover:bg-white/90 border-0 font-semibold transition-all hover:scale-[1.01] active:scale-[0.99]"
+                        className="w-full py-6 text-lg rounded-xl bg-white text-black hover:bg-white/90 border-0 font-semibold transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                     >
                         {isLoading ? (
                             <>

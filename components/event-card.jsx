@@ -17,6 +17,15 @@ export default function EventCard({
   className = "",
   onAction,
 }) {
+  const handlePrimaryAction = (e) => {
+    e.stopPropagation();
+    if (onAction) {
+      onAction(e);
+      return;
+    }
+    onClick?.(e);
+  };
+
   // List variant (compact horizontal layout)
   if (variant === "list") {
     return (
@@ -136,11 +145,8 @@ export default function EventCard({
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 gap-2"
-              onClick={(e) => {
-                e.stopPropagation();
-                onAction?.(e);
-              }}
+              className="flex-1 gap-2 cursor-pointer"
+              onClick={handlePrimaryAction}
             >
               {action === "event" ? (
                 <>
@@ -160,7 +166,7 @@ export default function EventCard({
               <Button
                 variant="outline"
                 size="sm"
-                className="gap-2 text-red-500 hover:text-red-600 hover:bg-red-50"
+                className="gap-2 text-red-500 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   onDelete(event._id);
