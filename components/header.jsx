@@ -70,7 +70,7 @@ export default function Header() {
             {/* Auth buttons — desktop */}
             <Authenticated>
               <Link href="/create-event" className="hidden md:block">
-                <Button variant="default" size="default" className="bg-white text-black hover:bg-gray-200 tracking-widest uppercase">
+                <Button variant="default" size="default" className="bg-primary hover:bg-primary/90 tracking-widest uppercase">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Event
                 </Button>
@@ -130,7 +130,7 @@ export default function Header() {
               <div className="pt-4 border-t border-white/10 space-y-3">
                 <Authenticated>
                   <Link href="/create-event" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="default" className="w-full bg-[#CCFF00] text-[#0A0A0A] hover:bg-[#CCFF00]/80 tracking-widest uppercase">
+                    <Button variant="default" className="w-full bg-primary hover:bg-primary/90 tracking-widest uppercase cursor-pointer">
                       <Plus className="h-4 w-4 mr-2" />
                       Create Event
                     </Button>

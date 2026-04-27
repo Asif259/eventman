@@ -522,7 +522,7 @@ export default function CreateEventPage() {
                     <Button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-6 text-lg rounded-xl bg-white text-black hover:bg-white/90 border-0 font-semibold transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                        className="w-full py-6 text-lg rounded-xl bg-primary hover:bg-primary/90 border-0 font-semibold transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                     >
                         {isLoading ? (
                             <>

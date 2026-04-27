@@ -167,3 +167,75 @@ export const deleteEvent = mutation({
     return { success: true };
   },
 });
+
+export const updateEvent = mutation({
+  args: {
+    eventId: v.id("events"),
+    title: v.string(),
+    description: v.string(),
+    category: v.string(),
+    tags: v.array(v.string()),
+    startDate: v.number(),
+    endDate: v.number(),
+    timezone: v.string(),
+    locationType: locationTypeValidator,
+    venue: v.optional(v.string()),
+    address: v.optional(v.string()),
+    city: v.string(),
+    state: v.optional(v.string()),
+    country: v.string(),
+    capacity: v.number(),
+    ticketType: ticketTypeValidator,
+    ticketPrice: v.optional(v.number()),
+    coverImage: v.optional(v.string()),
+    themeColor: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const user = await getAuthenticatedUser(ctx);
+    const event = await ctx.db.get(args.eventId);
+
+    if (!event) {
+      throw new Error("Event not found");
+    }
+
+    if (event.organizerId !== user._id) {
+      throw new Error("You can only edit your own events");
+    }
+
+    if (args.endDate <= args.startDate) {
+      throw new Error("End date/time must be after start date/time.");
+    }
+
+    if (args.ticketType === "paid" && (!args.ticketPrice || args.ticketPrice <= 0)) {
+      throw new Error("Paid events must include a valid ticket price.");
+    }
+
+    // Only generate a new slug if the title actually changed
+    const newSlug = event.title !== args.title ? generateUniqueSlug(args.title) : event.slug;
+
+    await ctx.db.patch(args.eventId, {
+      title: args.title,
+      description: args.description,
+      slug: newSlug,
+      category: args.category,
+      tags: args.tags,
+      startDate: args.startDate,
+      endDate: args.endDate,
+      timezone: args.timezone,
+      locationType: args.locationType,
+      venue: args.venue,
+      address: args.address,
+      city: args.city,
+      state: args.state,
+      country: args.country,
+      capacity: args.capacity,
+      ticketType: args.ticketType,
+      ticketPrice: args.ticketType === "paid" ? args.ticketPrice : undefined,
+      coverImage: args.coverImage,
+      themeColor: args.themeColor,
+      updatedAt: Date.now(),
+    });
+
+    return args.eventId;
+  },
+});

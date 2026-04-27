@@ -4,6 +4,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { format } from "date-fns";
 import {
@@ -145,9 +146,8 @@ export default function EventDetailPage() {
             <Card
               className={"pt-0"}
               style={{
-                backgroundColor: event.themeColor
-                  ? darkenColor(event.themeColor, 0.04)
-                  : "#1e3a8a",
+                backgroundColor: "#0A0A0A",
+                border: "1px solid #27272A"
               }}
             >
               <CardContent className="pt-6">
@@ -175,15 +175,16 @@ export default function EventDetailPage() {
                     </p>
                   )}
                   {event.venue && (
-                    <Button variant="outline" asChild className="gap-2">
-                      <a
+                    <Button variant="default" className="bg-primary hover:bg-primary/90">
+                      <Link
                         href={event.venue}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="flex items-center gap-2"
                       >
                         View on Map
                         <ExternalLink className="w-4 h-4" />
-                      </a>
+                      </Link>
                     </Button>
                   )}
                 </div>
@@ -294,13 +295,13 @@ export default function EventDetailPage() {
                   </Button>
                 ) : isOrganizer ? (
                   <Button
-                    className="w-full"
+                    className="w-full bg-primary hover:bg-primary/90 cursor-pointer"
                     onClick={() => router.push(`/events/${event.slug}/manage`)}
                   >
                     Manage Event
                   </Button>
                 ) : (
-                  <Button className="w-full gap-2" onClick={handleRegister}>
+                  <Button className="w-full gap-2 cursor-pointer" onClick={handleRegister}>
                     <Ticket className="w-4 h-4" />
                     Register for Event
                   </Button>
@@ -309,7 +310,7 @@ export default function EventDetailPage() {
                 {/* Share Button */}
                 <Button
                   variant="outline"
-                  className="w-full gap-2"
+                  className="w-full gap-2 cursor-pointer"
                   onClick={handleShare}
                 >
                   <Share2 className="w-4 h-4" />

@@ -33,8 +33,8 @@ export default function MyEventsPage() {
   };
 
   // Navigate to event dashboard instead of event detail
-  const handleEventClick = (eventId) => {
-    router.push(`/my-events/${eventId}`);
+  const handleEventClick = (slug) => {
+    router.push(`/events/${slug}/manage`);
   };
 
   if (isLoading) {
@@ -78,7 +78,7 @@ export default function MyEventsPage() {
                 key={event._id}
                 event={event}
                 action="event"
-                onClick={() => handleEventClick(event._id)}
+                onClick={() => handleEventClick(event.slug)}
                 onDelete={handleDelete}
               />
             ))}
