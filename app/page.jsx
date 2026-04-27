@@ -41,7 +41,7 @@ export default function LandingPage() {
     <div className="bg-white min-h-screen text-black font-sans overflow-x-hidden w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] -mt-40 md:-mt-32">
       
       {/* 1. HERO SECTION */}
-      <section className="relative h-screen w-full flex flex-col justify-end pb-24 px-6 md:px-16 overflow-hidden">
+      <section className="relative h-screen w-full flex flex-col justify-end pb-16 md:pb-24 px-4 md:px-16 overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image 
@@ -56,23 +56,23 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10 z-10" />
 
         <div className="relative z-20 max-w-5xl animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <h1 className="text-4xl md:text-[6rem] lg:text-[8rem] font-bold leading-[0.85] tracking-tight uppercase text-white mb-6 drop-shadow-2xl">
+          <h1 className="text-3xl sm:text-4xl md:text-[6rem] lg:text-[8rem] font-bold leading-[0.85] tracking-tight uppercase text-white mb-4 md:mb-6 drop-shadow-2xl">
             Where Events <br/> <span className="text-[#CCFF00]">Come to Life</span>
           </h1>
-          <p className="text-md md:text-2xl text-white/90 font-light mb-10 max-w-2xl drop-shadow-md">
+          <p className="text-sm md:text-2xl text-white/90 font-light mb-6 md:mb-10 max-w-2xl drop-shadow-md">
             Find the best events, grab your tickets, or host your own epic experience.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Link 
               href="/explore" 
-              className="inline-flex items-center justify-center px-8 py-4 bg-[#CCFF00] text-[#0A0A0A] font-heading font-bold text-md md:text-xl uppercase tracking-wider hover:bg-[#CCFF00]/80 transition-colors duration-300"
+              className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-[#CCFF00] text-[#0A0A0A] font-heading font-bold text-base md:text-xl uppercase tracking-wider hover:bg-[#CCFF00]/80 transition-colors duration-300"
             >
               Book a Ticket
             </Link>
             <Link 
               href="/create-event" 
-              className="inline-flex items-center justify-center px-8 py-4 bg-transparent border border-white text-white font-heading font-bold text-xl uppercase tracking-wider hover:bg-white hover:text-black transition-colors duration-300"
+              className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-transparent border border-white text-white font-heading font-bold text-base md:text-xl uppercase tracking-wider hover:bg-white hover:text-black transition-colors duration-300"
             >
               Create an Event
             </Link>
@@ -81,10 +81,10 @@ export default function LandingPage() {
       </section>
 
       {/* 2. TRENDING EVENTS */}
-      <section className="py-24 bg-white text-black">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
+      <section className="py-12 md:py-24 bg-white text-black">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex justify-between items-end mb-12">
-            <h2 className="font-heading text-5xl md:text-6xl font-bold uppercase tracking-tight text-[#0A0A0A]">
+            <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-[#0A0A0A]">
               Trending Events
             </h2>
             <Link href="/explore" className="hidden md:flex items-center gap-2 font-heading font-bold uppercase tracking-wider text-black hover:underline group">

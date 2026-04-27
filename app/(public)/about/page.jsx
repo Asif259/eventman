@@ -10,12 +10,12 @@ export default function AboutPage() {
     <div className="bg-[#0A0A0A] min-h-screen text-white font-sans overflow-x-hidden w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] -mt-40 md:-mt-32 pt-40 pb-0">
       
       {/* 1. HERO SECTION */}
-      <section className="relative px-6 md:px-16 max-w-7xl mx-auto mb-32">
+      <section className="relative px-4 md:px-16 max-w-7xl mx-auto mb-16 md:mb-32">
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <h1 className="font-heading text-6xl md:text-[8rem] font-bold leading-[0.85] tracking-tight uppercase text-white mb-6">
+          <h1 className="font-heading text-5xl md:text-[6rem] lg:text-[8rem] font-bold leading-[0.85] tracking-tight uppercase text-white mb-6">
             We Are <br/> <span className="text-[#CCFF00]">Nexus.</span>
           </h1>
-          <p className="text-xl md:text-3xl text-[#A1A1AA] font-light max-w-3xl leading-relaxed">
+          <p className="text-lg md:text-xl lg:text-3xl text-[#A1A1AA] font-light max-w-3xl leading-relaxed">
             More than a ticketing platform. We are the central nervous system of modern live experiences. 
             Built for the creators who push boundaries and the audiences who crave them.
           </p>
@@ -23,14 +23,14 @@ export default function AboutPage() {
       </section>
 
       {/* 2. OUR MISSION / WHITE SECTION */}
-      <section className="py-32 bg-white text-black border-y border-[#27272A]">
-        <div className="max-w-7xl mx-auto px-6 md:px-16">
+      <section className="py-16 md:py-32 bg-white text-black border-y border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 md:px-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="font-heading text-5xl md:text-7xl font-bold uppercase tracking-tight mb-8">
+              <h2 className="font-heading text-4xl md:text-5xl lg:text-7xl font-bold uppercase tracking-tight mb-8">
                 The Mission
               </h2>
-              <div className="space-y-6 text-lg text-gray-700 font-medium">
+              <div className="space-y-4 md:space-y-6 text-base md:text-lg text-gray-700 font-medium">
                 <p>
                   Nexus was born out of frustration with clunky, outdated event platforms. We believed that hosting an event should be as seamless as attending one.
                 </p>
@@ -55,13 +55,13 @@ export default function AboutPage() {
       </section>
 
       {/* 3. PLATFORM FEATURES */}
-      <section className="py-32 bg-[#0A0A0A]">
-        <div className="max-w-7xl mx-auto px-6 md:px-16">
-          <h2 className="font-heading text-5xl md:text-6xl font-bold uppercase tracking-tight text-white mb-16 text-center">
+      <section className="py-16 md:py-32 bg-[#0A0A0A]">
+        <div className="max-w-7xl mx-auto px-4 md:px-16">
+          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white mb-10 md:mb-16 text-center">
             Why We Built This
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {[
               {
                 icon: <Globe className="w-8 h-8 text-[#CCFF00]" />,
@@ -84,7 +84,7 @@ export default function AboutPage() {
                 desc: "Tools designed specifically to help organizers grow and engage their audience."
               }
             ].map((feature, idx) => (
-              <div key={idx} className="p-8 border border-[#27272A] rounded-2xl hover:border-[#CCFF00]/50 transition-colors bg-black/50">
+              <div key={idx} className="p-6 md:p-8 border border-[#27272A] rounded-2xl hover:border-[#CCFF00]/50 transition-colors bg-black/50">
                 <div className="mb-6 bg-[#27272A]/50 w-16 h-16 rounded-full flex items-center justify-center">
                   {feature.icon}
                 </div>
@@ -99,12 +99,12 @@ export default function AboutPage() {
       </section>
 
       {/* 4. CTA */}
-      <section className="py-32 bg-[#CCFF00] text-black text-center">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="font-heading text-6xl md:text-8xl font-bold uppercase tracking-tight mb-8">
+      <section className="py-16 md:py-32 bg-[#CCFF00] text-black text-center">
+        <div className="max-w-4xl mx-auto px-4 md:px-6">
+          <h2 className="font-heading text-4xl md:text-6xl lg:text-8xl font-bold uppercase tracking-tight mb-6 md:mb-8">
             Ready to dive in?
           </h2>
-          <p className="font-mono text-lg font-bold uppercase tracking-widest mb-12">
+          <p className="font-mono text-sm md:text-lg font-bold uppercase tracking-widest mb-8 md:mb-12">
             Join thousands of creators and attendees already on Nexus.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

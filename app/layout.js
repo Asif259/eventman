@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
             <ConvexClientProvider>
               <Header />
 
-              <main className="relative min-h-screen container mx-auto pt-40 md:pt-32">
+              <main className="relative min-h-screen container mx-auto px-4 md:px-6 lg:px-8 pt-28 md:pt-32">
                 {/* Background glow effects (behind everything) */}
                 <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
                   <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#CCFF00]/10 rounded-full blur-[100px]" />

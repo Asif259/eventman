@@ -46,11 +46,11 @@ export default function MyEventsPage() {
   }
 
   return (
-    <div className="min-h-screen pb-20 px-4">
+    <div className="min-h-screen pb-20 px-3 md:px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold mb-2">My Events</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">My Events</h1>
             <p className="text-muted-foreground">Manage your created events</p>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function MyEventsPage() {
             </div>
           </Card>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {events?.map((event) => (
               <EventCard
                 key={event._id}

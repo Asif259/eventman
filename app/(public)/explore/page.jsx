@@ -87,8 +87,8 @@ export default function ExplorePage() {
   return (
     <>
       {/* Hero Title */}
-      <div className="pb-12 text-center">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4">Discover Events</h1>
+      <div className="pb-8 md:pb-12 text-center px-4">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4">Discover Events</h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
           Explore featured events, find what&apos;s happening locally, or browse
           events across {currentUser?.location?.country || "India"}
@@ -105,7 +105,7 @@ export default function ExplorePage() {
               {featuredEvents.map((event) => (
                 <CarouselItem key={event._id}>
                   <div
-                    className="relative h-[400px] rounded-xl overflow-hidden cursor-pointer"
+                    className="relative h-[250px] sm:h-[320px] md:h-[400px] rounded-xl overflow-hidden cursor-pointer"
                     onClick={() => handleEventClick(event.slug)}
                   >
                     {event.coverImage ? (
@@ -123,14 +123,14 @@ export default function ExplorePage() {
                       />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/60 to-transparent" />
-                    <div className="relative h-full flex flex-col justify-end p-8 md:p-12">
+                    <div className="relative h-full flex flex-col justify-end p-4 sm:p-6 md:p-12">
                       <Badge className="w-fit mb-4 bg-purple-500/20 text-purple-200 hover:bg-purple-500/30 border-purple-500/30 py-1 px-3 backdrop-blur-md" variant="outline">
                         {event.city}, {event.state || event.country}
                       </Badge>
-                      <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white leading-tight">
+                      <h2 className="text-xl sm:text-2xl md:text-5xl font-bold mb-2 md:mb-4 text-white leading-tight">
                         {event.title}
                       </h2>
-                      <p className="text-lg text-zinc-300 mb-6 max-w-2xl line-clamp-2">
+                      <p className="text-sm md:text-lg text-zinc-300 mb-4 md:mb-6 max-w-2xl line-clamp-2 hidden sm:block">
                         {event.description}
                       </p>
                       <div className="flex flex-wrap items-center gap-6 text-white/80">
@@ -167,21 +167,21 @@ export default function ExplorePage() {
         <div className="mb-16">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-3xl font-bold mb-1">Events Near You</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-1">Events Near You</h2>
               <p className="text-muted-foreground">
                 Happening in {currentUser?.location?.city || "your area"}
               </p>
             </div>
             <Button
               variant="outline"
-              className="gap-2"
+              className="gap-2 hidden sm:flex"
               onClick={handleViewLocalEvents}
             >
               View All <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {localEvents.map((event) => (
               <EventCard
                 key={event._id}
@@ -197,7 +197,7 @@ export default function ExplorePage() {
       {/* Browse by Category */}
       <div className="mb-16">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold">Browse by Category</h2>
+          <h2 className="text-2xl md:text-3xl font-bold">Browse by Category</h2>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -230,7 +230,7 @@ export default function ExplorePage() {
         <div className="mb-20">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
-              <h2 className="text-3xl font-bold mb-2">Popular Across {currentUser?.location?.country || "India"}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">Popular Across {currentUser?.location?.country || "India"}</h2>
               <p className="text-zinc-400">Trending events nationwide</p>
             </div>
             <Button variant="ghost" className="gap-2 shrink-0 md:self-end text-purple-400 hover:text-purple-300" onClick={() => router.push('/events')}>
@@ -238,7 +238,7 @@ export default function ExplorePage() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {popularEvents.map((event) => (
               <EventCard
                 key={event._id}

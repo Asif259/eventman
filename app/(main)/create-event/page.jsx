@@ -199,11 +199,11 @@ export default function CreateEventPage() {
     };
 
     return (
-        <div className="min-h-screen text-white transition-colors duration-500 px-6 py-8 -mt-6 md:-mt-16 lg:-mt-5 lg:rounded-md">
+        <div className="min-h-screen text-white transition-colors duration-500 px-4 md:px-6 py-6 md:py-8 -mt-6 md:-mt-16 lg:-mt-5 lg:rounded-md">
             {/* Header */}
             <div className="max-w-6xl mx-auto flex flex-col gap-5 md:flex-row justify-between mb-10">
                 <div>
-                    <h1 className="text-4xl font-bold">Create Event</h1>
+                    <h1 className="text-3xl md:text-4xl font-bold">Create Event</h1>
                     {!hasPro && (
                         <p className="text-sm text-white/70 mt-2">
                             Free: {currentUser?.freeEventsCreated || 0}/1 events created
@@ -213,7 +213,7 @@ export default function CreateEventPage() {
                 <AIEventCreator onEventGenerated={handleAIGenerate} />
             </div>
 
-            <div className="max-w-6xl mx-auto grid md:grid-cols-[320px_1fr] gap-10">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[280px_1fr] lg:grid-cols-[320px_1fr] gap-8 md:gap-10">
                 {/* LEFT: Image + Theme */}
                 <div className="space-y-6">
                     <div
@@ -256,7 +256,7 @@ export default function CreateEventPage() {
                     </div>
 
                     {/* Date + Time */}
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {/* Start */}
                         <div className="space-y-2">
                             <Label className="text-sm text-white/90">Start</Label>

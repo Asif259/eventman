@@ -102,14 +102,14 @@ export default function EventDetailPage() {
   const isOrganizer = currentUser?._id === event.organizerId;
 
   return (
-    <div className="min-h-screen py-8 -mt-6 md:-mt-16 lg:-mx-5 bg-[#0A0A0A]">
-      <div className="max-w-7xl mx-auto px-8">
+    <div className="min-h-screen py-6 md:py-8 -mt-6 md:-mt-16 lg:-mx-5 bg-[#0A0A0A]">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Event Title & Info */}
         <div className="mb-8">
           <Badge variant="secondary" className="mb-3">
             {getCategoryIcon(event.category)} {getCategoryLabel(event.category)}
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{event.title}</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">{event.title}</h1>
           <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5" />
@@ -127,7 +127,7 @@ export default function EventDetailPage() {
 
         {/* Hero Image */}
         {event.coverImage && (
-          <div className="relative h-[400px] rounded-2xl overflow-hidden mb-6">
+          <div className="relative h-[200px] sm:h-[300px] md:h-[400px] rounded-2xl overflow-hidden mb-6">
             <Image
               src={event.coverImage}
               alt={event.title}

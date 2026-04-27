@@ -156,7 +156,7 @@ export default function EventDashboardPage() {
   });
 
   return (
-    <div className="min-h-screen pb-20 px-4">
+    <div className="min-h-screen pb-20 px-3 md:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Navigation */}
         <div className="mb-6">
@@ -171,7 +171,7 @@ export default function EventDashboardPage() {
         </div>
 
         {event.coverImage && (
-          <div className="relative h-[350px] rounded-2xl overflow-hidden mb-6">
+          <div className="relative h-[180px] sm:h-[250px] md:h-[350px] rounded-2xl overflow-hidden mb-6">
             <Image
               src={event.coverImage}
               alt={event.title}
@@ -185,7 +185,7 @@ export default function EventDashboardPage() {
         {/* Event Header */}
         <div className="flex flex-col gap-5 sm:flex-row items-start justify-between mb-4">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold mb-3">{event.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold mb-3">{event.title}</h1>
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <Badge variant="outline">
                 {getCategoryIcon(event.category)}{" "}
@@ -335,7 +335,7 @@ export default function EventDashboardPage() {
           </TabsList>
 
           {/* Search and Actions */}
-          <div className="flex gap-3 mb-4">
+          <div className="flex flex-col sm:flex-row gap-3 mb-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input

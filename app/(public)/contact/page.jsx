@@ -47,28 +47,28 @@ export default function ContactPage() {
     <div className="bg-[#0A0A0A] min-h-screen text-white font-sans overflow-x-hidden w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] -mt-40 md:-mt-32 pt-40 pb-0">
       
       {/* 1. HERO SECTION */}
-      <section className="relative px-6 md:px-16 max-w-7xl mx-auto mb-20 md:mb-32">
+      <section className="relative px-4 md:px-16 max-w-7xl mx-auto mb-12 md:mb-32">
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <h1 className="font-heading text-6xl md:text-[8rem] font-bold leading-[0.85] tracking-tight uppercase text-white mb-6">
+          <h1 className="font-heading text-5xl md:text-[6rem] lg:text-[8rem] font-bold leading-[0.85] tracking-tight uppercase text-white mb-6">
             Get In <br/> <span className="text-[#CCFF00]">Touch.</span>
           </h1>
-          <p className="text-xl md:text-2xl text-[#A1A1AA] font-light max-w-2xl leading-relaxed">
+          <p className="text-lg md:text-xl lg:text-2xl text-[#A1A1AA] font-light max-w-2xl leading-relaxed">
             Have a question, need support, or want to partner with Nexus? We are here to help you create unforgettable experiences.
           </p>
         </div>
       </section>
 
       {/* 2. CONTACT FORM & INFO SECTION */}
-      <section className="py-24 bg-white text-black border-y border-[#27272A]">
-        <div className="max-w-7xl mx-auto px-6 md:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+      <section className="py-12 md:py-24 bg-white text-black border-y border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
             
             {/* Contact Info */}
             <div>
-              <h2 className="font-heading text-5xl font-bold uppercase tracking-tight mb-8">
+              <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase tracking-tight mb-6 md:mb-8">
                 Reach Out
               </h2>
-              <p className="text-gray-600 font-medium text-lg mb-12 max-w-md">
+              <p className="text-gray-600 font-medium text-base md:text-lg mb-8 md:mb-12 max-w-md">
                 Fill out the form to send an email directly to our team. We typically respond within 24 hours.
               </p>
               
@@ -106,7 +106,7 @@ export default function ContactPage() {
             </div>
 
             {/* Form using FormSubmit.co to send directly to email without backend setup */}
-            <div className="bg-[#0A0A0A] text-white p-8 md:p-12 rounded-3xl shadow-2xl">
+            <div className="bg-[#0A0A0A] text-white p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-2xl">
               <form 
                 onSubmit={handleSubmit}
                 className="space-y-6"
