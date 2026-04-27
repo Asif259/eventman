@@ -43,15 +43,6 @@ import {
     getBangladeshStates,
 } from "@/lib/bangladesh-locations";
 
-const THEME_PALETTES = {
-    "#1e3a8a": { bg: "bg-blue-950/50", border: "border-blue-800/60", ring: "focus-visible:ring-blue-400/50", hover: "hover:bg-blue-900/50", accentText: "text-blue-200", accentBorder: "border-blue-400/30" },
-    "#4c1d95": { bg: "bg-purple-950/50", border: "border-purple-800/60", ring: "focus-visible:ring-purple-400/50", hover: "hover:bg-purple-900/50", accentText: "text-purple-200", accentBorder: "border-purple-400/30" },
-    "#065f46": { bg: "bg-emerald-950/50", border: "border-emerald-800/60", ring: "focus-visible:ring-emerald-400/50", hover: "hover:bg-emerald-900/50", accentText: "text-emerald-200", accentBorder: "border-emerald-400/30" },
-    "#92400e": { bg: "bg-amber-950/50", border: "border-amber-800/60", ring: "focus-visible:ring-amber-400/50", hover: "hover:bg-amber-900/50", accentText: "text-amber-200", accentBorder: "border-amber-400/30" },
-    "#7f1d1d": { bg: "bg-red-950/50", border: "border-red-800/60", ring: "focus-visible:ring-red-400/50", hover: "hover:bg-red-900/50", accentText: "text-red-200", accentBorder: "border-red-400/30" },
-    "#831843": { bg: "bg-pink-950/50", border: "border-pink-800/60", ring: "focus-visible:ring-pink-400/50", hover: "hover:bg-pink-900/50", accentText: "text-pink-200", accentBorder: "border-pink-400/30" }
-};
-
 
 // HH:MM in 24h
 const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
@@ -73,7 +64,6 @@ const eventSchema = z.object({
     ticketType: z.enum(["free", "paid"]).default("free"),
     ticketPrice: z.union([z.number(), z.nan()]).optional(),
     coverImage: z.string().optional(),
-    themeColor: z.string().default("#1e3a8a"),
 }).refine(data => {
     if (data.ticketType === "paid") {
         return typeof data.ticketPrice === 'number' && !isNaN(data.ticketPrice) && data.ticketPrice > 0;
@@ -88,7 +78,7 @@ export default function CreateEventPage() {
     const router = useRouter();
     const [showImagePicker, setShowImagePicker] = useState(false);
     const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-    const [upgradeReason, setUpgradeReason] = useState("limit"); // "limit" or "color"
+    const [upgradeReason, setUpgradeReason] = useState("limit");
 
     // Check if user has Pro plan
     const { has } = useAuth();
@@ -112,7 +102,6 @@ export default function CreateEventPage() {
             locationType: "physical",
             ticketType: "free",
             capacity: 50,
-            themeColor: "#1e3a8a",
             category: "",
             state: "",
             city: "",
@@ -121,11 +110,8 @@ export default function CreateEventPage() {
         },
     });
 
-    const themeColor = watch("themeColor") || "#1e3a8a";
-    const palette = THEME_PALETTES[themeColor] || THEME_PALETTES["#1e3a8a"];
-
-    const inputClasses = cn("text-white placeholder:text-white/40 transition-colors border", palette.bg, palette.border, palette.ring);
-    const buttonClasses = cn(inputClasses, palette.hover);
+    const inputClasses = cn("text-white placeholder:text-white/40 transition-colors border bg-[#0A0A0A] border-[#27272A] focus-visible:ring-[#CCFF00]/50");
+    const buttonClasses = cn(inputClasses, "hover:bg-[#27272A]/50");
 
     const ticketType = watch("ticketType");
     const startDate = watch("startDate");
@@ -142,21 +128,7 @@ export default function CreateEventPage() {
         return getBangladeshCities(selectedState);
     }, [selectedState]);
 
-    // Color presets - show all for Pro, only default for Free
-    const colorPresets = [
-        "#1e3a8a", // Default color (always available)
-        ...(hasPro ? ["#4c1d95", "#065f46", "#92400e", "#7f1d1d", "#831843"] : []),
-    ];
 
-    const handleColorClick = (color) => {
-        // If not default color and user doesn't have Pro
-        if (color !== "#1e3a8a" && !hasPro) {
-            setUpgradeReason("color");
-            setShowUpgradeModal(true);
-            return;
-        }
-        setValue("themeColor", color);
-    };
 
     const combineDateTime = (date, time) => {
         if (!date || !time) return null;
@@ -187,12 +159,7 @@ export default function CreateEventPage() {
                 return;
             }
 
-            // Check if trying to use custom color without Pro
-            if (data.themeColor !== "#1e3a8a" && !hasPro) {
-                setUpgradeReason("color");
-                setShowUpgradeModal(true);
-                return;
-            }
+
 
             await createEvent({
                 title: data.title,
@@ -212,7 +179,6 @@ export default function CreateEventPage() {
                 ticketType: data.ticketType,
                 ticketPrice: data.ticketPrice || undefined,
                 coverImage: data.coverImage || undefined,
-                themeColor: data.themeColor,
                 hasPro,
             });
 
@@ -233,10 +199,7 @@ export default function CreateEventPage() {
     };
 
     return (
-        <div
-            className="min-h-screen text-white transition-colors duration-500 px-6 py-8 -mt-6 md:-mt-16 lg:-mt-5 lg:rounded-md"
-            style={{ backgroundColor: themeColor }}
-        >
+        <div className="min-h-screen text-white transition-colors duration-500 px-6 py-8 -mt-6 md:-mt-16 lg:-mt-5 lg:rounded-md">
             {/* Header */}
             <div className="max-w-6xl mx-auto flex flex-col gap-5 md:flex-row justify-between mb-10">
                 <div>
@@ -254,7 +217,7 @@ export default function CreateEventPage() {
                 {/* LEFT: Image + Theme */}
                 <div className="space-y-6">
                     <div
-                        className={cn("aspect-square w-full rounded-xl overflow-hidden flex items-center justify-center cursor-pointer border transition-colors", palette.bg, palette.border, palette.hover)}
+                        className="aspect-square w-full rounded-xl overflow-hidden flex items-center justify-center cursor-pointer border transition-colors bg-[#0A0A0A] border-[#27272A] hover:bg-[#27272A]/50"
                         onClick={() => setShowImagePicker(true)}
                     >
                         {coverImage ? (
@@ -273,57 +236,7 @@ export default function CreateEventPage() {
                         )}
                     </div>
 
-                    <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                            <Label className="text-sm text-white/90">Theme Color</Label>
-                            {!hasPro && (
-                                <Badge variant="secondary" className="text-xs gap-1">
-                                    <Sparkles className="w-3 h-3" />
-                                    Pro
-                                </Badge>
-                            )}
-                        </div>
-                        <div className="flex gap-2 flex-wrap">
-                            {colorPresets.map((color) => (
-                                <button
-                                    key={color}
-                                    type="button"
-                                    className={`w-10 h-10 rounded-full border-2 transition-all ${!hasPro && color !== "#1e3a8a"
-                                        ? "opacity-40 cursor-not-allowed"
-                                        : "hover:scale-110"
-                                        }`}
-                                    style={{
-                                        backgroundColor: color,
-                                        borderColor: themeColor === color ? "white" : "transparent",
-                                    }}
-                                    onClick={() => handleColorClick(color)}
-                                    title={
-                                        !hasPro && color !== "#1e3a8a"
-                                            ? "Upgrade to Pro for custom colors"
-                                            : ""
-                                    }
-                                />
-                            ))}
-                            {!hasPro && (
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setUpgradeReason("color");
-                                        setShowUpgradeModal(true);
-                                    }}
-                                    className={cn("w-10 h-10 rounded-full border-2 border-dashed flex items-center justify-center transition-colors", palette.bg, palette.border, palette.hover)}
-                                    title="Unlock more colors with Pro"
-                                >
-                                    <Sparkles className={cn("w-5 h-5", palette.accentText)} />
-                                </button>
-                            )}
-                        </div>
-                        {!hasPro && (
-                            <p className="text-xs text-white/60">
-                                Upgrade to Pro to unlock custom theme colors
-                            </p>
-                        )}
-                    </div>
+
                 </div>
 
                 {/* RIGHT: Form */}
@@ -333,7 +246,7 @@ export default function CreateEventPage() {
                         <Input
                             {...register("title")}
                             placeholder="Event Name"
-                            className={cn("text-xl md:text-2xl font-bold bg-transparent border-none focus-visible:ring-0 text-white placeholder:text-white/40 h-auto", palette.ring)}
+                            className={cn("text-xl md:text-2xl font-bold bg-transparent border-none focus-visible:ring-0 text-white placeholder:text-white/40 h-auto")}
                         />
                         {errors.title && (
                             <p className="text-sm text-red-300 font-medium mt-1">

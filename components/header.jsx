@@ -10,7 +10,7 @@ import { BarLoader } from "react-spinners";
 import { useStoreUser } from "@/hooks/use-store-user";
 import { useState } from "react";
 import { Plus, Ticket, Building, LogIn } from "lucide-react";
-import SearchLocationBar from "@/components/searchLocationBar";
+
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import UpgradeModal from "@/components/upgrade-modal";
@@ -31,13 +31,14 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
               <Image
-                src="/logo.png"
+                src="/logo2.png"
                 alt="nexus logo"
                 width={120}
                 height={44}
                 className="w-auto h-9 md:h-11 object-contain"
                 priority
               />
+              <h2 className=" text-2xl font-bold tracking-widest uppercase text-white">Nexus</h2>
             </Link>
 
             {/* Pro Badge */}
@@ -56,30 +57,23 @@ export default function Header() {
             )}
           </div>
 
-          {/* Search bar */}
-          <div className="hidden md:flex flex-1 justify-center">
-            <SearchLocationBar />
+          {/* Center nav links */}
+          <div className="hidden md:flex flex-1 justify-center items-center gap-8  text-lg tracking-wider text-white/90">
+            <Link href="/explore" className="hover:text-white transition-colors">Browse Events</Link>
+            <Link href="/create-event" className="hover:text-white transition-colors">Create Events</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
           </div>
 
-
-          <div className="flex items-center gap-2 md:gap-4">
-            {/* Nav links */}
-            {!hasPro && (
-            <Button variant="ghost" size="default" onClick={() => setShowUpgradeModal(true)} className="hidden sm:flex hover:-translate-y-[1px] transition-transform duration-200">
-              Pricing
-            </Button>
-            )}
-
-            <Button render={<Link href="/explore" />} variant="ghost" size="default" className="hidden sm:flex hover:-translate-y-[1px] transition-transform duration-200">
-              Explore
-            </Button>
-
+          <div className="flex items-center gap-3">
             {/* Auth buttons */}
             <Authenticated>
-              <Button render={<Link href="/create-event" className="flex items-center gap-2" />} variant="default" size="default" className="shadow-sm hover:shadow-md hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200">
-                <Plus className="h-4 w-4" />
-                <span className="hidden sm:inline">Create Event</span>
-              </Button>
+              <Link href="/create-event" className="hidden md:block">
+                <Button variant="default" size="default" className="bg-white text-black hover:bg-gray-200  tracking-widest uppercase">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create Event
+                </Button>
+              </Link>
               <UserButton>
                 <UserButton.MenuItems>
                   <UserButton.Link
@@ -96,19 +90,21 @@ export default function Header() {
                 </UserButton.MenuItems>
               </UserButton>
             </Authenticated>
+            
             <Unauthenticated>
               <SignInButton mode="modal">
-                <Button size="default" className="cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200">
-                  Sign In
+                <Button variant="ghost" className="text-white hover:bg-white/10  tracking-widest uppercase border border-transparent">
+                  Log In
+                </Button>
+              </SignInButton>
+              {/* @clerk/nextjs SignUpButton is missing from imports, so I'll just use SignInButton which handles both or a generic Link to sign-up */}
+              <SignInButton mode="modal" fallbackRedirectUrl="/explore">
+                <Button variant="outline" className="text-white border-white bg-transparent hover:bg-white hover:text-black  tracking-widest uppercase">
+                  Sign Up
                 </Button>
               </SignInButton>
             </Unauthenticated>
           </div>
-        </div>
-
-        {/*  mobile Search Bar */}
-        <div className="md:hidden border-t px-3 py-3">
-          <SearchLocationBar />
         </div>
 
         {/* {Loader} */}

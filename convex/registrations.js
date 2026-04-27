@@ -170,3 +170,74 @@ export const cancelRegistration = mutation({
     return { success: true };
   },
 });
+// Get all registrations for an event (organizer only)
+export const getEventRegistrations = query({
+  args: { eventId: v.id("events") },
+  handler: async (ctx, args) => {
+    const user = await ctx.runQuery(internal.users.getCurrentUser);
+    if (!user) {
+      throw new Error("Not authenticated");
+    }
+
+    const event = await ctx.db.get(args.eventId);
+    if (!event) {
+      throw new Error("Event not found");
+    }
+
+    // Check if user is the organizer
+    if (event.organizerId !== user._id) {
+      throw new Error("Unauthorized");
+    }
+
+    const registrations = await ctx.db
+      .query("registrations")
+      .withIndex("by_event", (q) => q.eq("eventId", args.eventId))
+      .order("desc")
+      .collect();
+
+    return registrations;
+  },
+});
+
+export const checkInAttendee = mutation({
+  args: { qrCode: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.runQuery(internal.users.getCurrentUser);
+    if (!user) {
+      return { success: false, message: "Not authenticated" };
+    }
+
+    const registration = await ctx.db
+      .query("registrations")
+      .filter((q) => q.eq(q.field("qrCode"), args.qrCode))
+      .first();
+
+    if (!registration) {
+      return { success: false, message: "Invalid ticket" };
+    }
+
+    const event = await ctx.db.get(registration.eventId);
+    if (!event) {
+      return { success: false, message: "Event not found" };
+    }
+
+    if (event.organizerId !== user._id) {
+      return { success: false, message: "Unauthorized scanner" };
+    }
+
+    if (registration.status !== "confirmed") {
+      return { success: false, message: "Ticket is cancelled" };
+    }
+
+    if (registration.checkedIn) {
+      return { success: false, message: "Already checked in" };
+    }
+
+    await ctx.db.patch(registration._id, {
+      checkedIn: true,
+      checkedInAt: Date.now(),
+    });
+
+    return { success: true };
+  },
+});

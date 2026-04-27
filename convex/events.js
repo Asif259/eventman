@@ -122,7 +122,7 @@ export const getEventBySlug = query({
   },
 });
 
-export const getEventsByOrganizer = query({
+export const getMyEvents = query({
   args: {
     limit: v.optional(v.number()),
   },

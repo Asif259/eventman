@@ -7,28 +7,16 @@ export const useConvexQuery = (query, ...args) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    let result;
-    let queryError = null;
-
-    try {
-        result = useQuery(query, ...args);
-    } catch (err) {
-        queryError = err;
-    }
-    
+    const result = useQuery(query, ...args);
     useEffect(() => {
-        if (queryError) {
-            setError(queryError);
-            toast.error(queryError.message || "An error occurred");
-            setIsLoading(false);
-        } else if (result === undefined) {
+        if (result === undefined) {
             setIsLoading(true);
         } else {
             setData(result);
             setError(null);
             setIsLoading(false);
         }
-    }, [result, queryError]);
+    }, [result]);
 
     return { data, isLoading, error };
 }

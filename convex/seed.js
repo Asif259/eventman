@@ -3,626 +3,219 @@ import { internalMutation } from "./_generated/server";
 // Sample events data with Unsplash images
 const SAMPLE_EVENTS = [
   {
-    title: "React 19 Workshop: Master the New Features",
-    description: `Join us for an intensive hands-on workshop diving deep into React 19's revolutionary features! 
+    title: "Eid Fashion & Handicraft Fair",
+    description: `Discover traditional and modern Eid fashion from local Bangladeshi brands.
 
-In this session, you'll learn about:
-- The new Actions API and how it simplifies form handling
-- Server Components and their impact on performance
-- The improved use() hook and its practical applications
-- Asset loading improvements for better UX
-- Migration strategies from React 18
+Featured:
+- Jamdani sarees
+- Panjabi collections
+- Handmade jewelry
+- Leather products
+- Henna art booths
 
-Whether you're a seasoned React developer or just getting started, this workshop will equip you with the knowledge to build faster, more efficient applications. Bring your laptop and be ready to code!
-
-Light refreshments will be provided. Limited seats available.`,
-    category: "tech",
-    tags: ["tech", "react", "javascript", "frontend"],
+Support local artisans and small businesses while shopping for Eid.`,
+    category: "shopping",
+    tags: ["eid", "fashion", "handicraft", "shopping"],
     city: "Dhaka",
     state: "Dhaka",
-    venue: "https://maps.google.com/?q=GP+House+Dhaka",
-    address: "GP House, Bashundhara, Dhaka",
-    capacity: 50,
+    venue: "https://maps.google.com/?q=Bangabandhu+International+Conference+Center",
+    address: "BICC, Agargaon, Dhaka",
+    capacity: 400,
     ticketType: "free",
     coverImage:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&q=80",
-    themeColor: "#4c1d95",
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=1200&q=80",
   },
+
   {
-    title: "AI & Machine Learning Meetup - Building with LLMs",
-    description: `Explore the exciting world of Large Language Models and learn how to integrate them into your applications!
+    title: "Rural Innovation Hackathon Bangladesh",
+    description: `Build technology solutions for real rural problems in Bangladesh.
 
-This meetup covers:
-- Introduction to LLM APIs (OpenAI, Anthropic, Google)
-- Prompt engineering best practices
-- Building RAG applications
-- Fine-tuning strategies
-- Real-world use cases and demos
+Themes:
+- Agriculture technology
+- Flood monitoring
+- Rural healthcare
+- Smart irrigation
+- Digital education
 
-Network with fellow AI enthusiasts and developers. Q&A session included.
-
-Pizza and drinks provided!`,
+Teams will present solutions to judges from NGOs and tech companies.`,
     category: "tech",
-    tags: ["tech", "ai", "machine-learning", "llm"],
-    city: "Chittagong",
-    state: "Chittagong",
-    venue: "https://maps.google.com/?q=Radisson+Blu+Chattogram+Bay+View",
-    address: "SS Khaled Road, Lalkhan Bazar, Chittagong",
+    tags: ["hackathon", "innovation", "agriculture", "technology"],
+    city: "Mymensingh",
+    state: "Mymensingh",
+    venue: "https://maps.google.com/?q=Bangladesh+Agricultural+University",
+    address: "BAU Campus, Mymensingh",
     capacity: 100,
     ticketType: "free",
     coverImage:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80",
-    themeColor: "#1e3a8a",
+      "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1200&q=80",
   },
+
   {
-    title: "Indie Music Night - Acoustic Sessions",
-    description: `An evening of soulful acoustic performances by indie artists from across Bangladesh!
+    title: "Padma River Boat Photography Tour",
+    description: `Capture stunning sunrise and river life photography along the Padma River.
 
-Featuring:
-- 5 handpicked indie bands
-- Unplugged performances
-- Open mic session (limited slots)
-- Meet & greet with artists
+Includes:
+- Boat ride
+- Photography guidance
+- Village landscape photography
+- Fishermen lifestyle documentation
 
-Experience the raw talent of upcoming musicians in an intimate setting. Perfect for music lovers who appreciate authentic, heartfelt performances.
-
-Food and beverages available for purchase at the venue.`,
-    category: "music",
-    tags: ["music", "indie", "acoustic", "live"],
-    city: "Sylhet",
-    state: "Sylhet",
-    venue: "https://maps.google.com/?q=Sylhet+International+Cricket+Stadium",
-    address: "Lakkatura, Sylhet",
-    capacity: 120,
-    ticketType: "paid",
-    ticketPrice: 500,
-    coverImage:
-      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&q=80",
-    themeColor: "#831843",
-  },
-  {
-    title: "Startup Networking Breakfast",
-    description: `Connect with fellow entrepreneurs, investors, and startup enthusiasts over breakfast!
-
-What to expect:
-- Speed networking sessions
-- Pitch practice opportunities
-- One-on-one mentor meetings
-- Funding insights from VCs
-- Success stories from local founders
-
-This is your chance to expand your professional network, find potential co-founders, or get valuable feedback on your startup idea.
-
-Continental breakfast included in registration.`,
-    category: "business",
-    tags: ["business", "networking", "startup", "entrepreneurship"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=Banani+Club+Dhaka",
-    address: "Road 11, Banani, Dhaka",
-    capacity: 40,
-    ticketType: "paid",
-    ticketPrice: 300,
-    coverImage:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=80",
-    themeColor: "#065f46",
-  },
-  {
-    title: "Weekend Photography Walk - Old Dhaka Stories",
-    description: `Capture the vibrant streets of Old Dhaka through your lens!
-
-Join our photography walk covering:
-- Ahsan Manzil's architecture
-- Bustling Shankhari Bazar
-- Street food and portraits in Lalbagh
-- Golden hour at Sadarghat
-- Post-processing tips
-
-Suitable for all skill levels. Bring your camera (phone cameras welcome too!). Our experienced photographer will guide you through composition techniques and storytelling through images.
-
-Traditional breakfast and tea stops included!`,
+Breakfast and tea included because Bangladesh runs on tea and collective dehydration.`,
     category: "art",
-    tags: ["art", "photography", "culture", "walking-tour"],
-    city: "Dhaka",
+    tags: ["photography", "travel", "river", "nature"],
+    city: "Rajbari",
     state: "Dhaka",
-    venue: "https://maps.google.com/?q=Ahsan+Manzil+Dhaka",
-    address: "Sadarghat, Old Dhaka, Dhaka",
-    capacity: 25,
-    ticketType: "paid",
-    ticketPrice: 800,
-    coverImage:
-      "https://images.unsplash.com/photo-1554080353-a576cf803bda?w=1200&q=80",
-    themeColor: "#92400e",
-  },
-  {
-    title: "Full Stack Development Bootcamp - Day 1",
-    description: `Kickstart your journey to becoming a full-stack developer!
-
-Day 1 covers:
-- Setting up your development environment
-- Git & GitHub fundamentals
-- HTML5 & CSS3 essentials
-- Introduction to JavaScript
-- Building your first webpage
-
-This is the first session of our 6-week bootcamp series. Perfect for beginners who want to break into tech. No prior coding experience required!
-
-Laptop required. Course materials provided.`,
-    category: "education",
-    tags: ["education", "coding", "fullstack", "beginner"],
-    city: "Rajshahi",
-    state: "Rajshahi",
-    venue: "https://maps.google.com/?q=Rajshahi+University",
-    address: "University of Rajshahi Campus, Rajshahi",
+    venue: "https://maps.google.com/?q=Padma+River+Rajbari",
+    address: "Padma River Ghat, Rajbari",
     capacity: 30,
-    ticketType: "free",
-    coverImage:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&q=80",
-    themeColor: "#7f1d1d",
-  },
-  {
-    title: "Sunday Football Tournament",
-    description: `5-a-side football tournament for amateur players!
-
-Tournament details:
-- 8 teams competing
-- Round-robin + knockout format
-- Prizes for top 3 teams
-- Best player award
-- Free jersey for all participants
-
-Register as a team (5 players + 2 substitutes) or individually (we'll match you with a team).
-
-Referee provided. Water and energy drinks available. Medical support on standby.`,
-    category: "sports",
-    tags: ["sports", "football", "tournament", "fitness"],
-    city: "Khulna",
-    state: "Khulna",
-    venue: "https://maps.google.com/?q=Khulna+District+Stadium",
-    address: "Boyra, Khulna",
-    capacity: 56,
-    ticketType: "paid",
-    ticketPrice: 350,
-    coverImage:
-      "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&q=80",
-    themeColor: "#065f46",
-  },
-  {
-    title: "Healthy Cooking Workshop - Traditional Flavors",
-    description: `Learn to create delicious, nutritious traditional Bangladeshi meals with a healthy twist!
-
-Workshop includes:
-- 5 complete recipes to master
-- Ingredient selection tips
-- Meal prep strategies
-- Nutritional balancing
-- Recipe booklet to take home
-
-Our chef instructor will guide you through preparing a full plant-based meal from appetizer to dessert. All ingredients and cooking equipment provided.
-
-Taste everything you cook! Great for health enthusiasts and curious foodies alike.`,
-    category: "food",
-    tags: ["food", "cooking", "health", "tradition"],
-    city: "Barishal",
-    state: "Barishal",
-    venue: "https://maps.google.com/?q=Barishal+Club",
-    address: "Band Road, Barishal",
-    capacity: 20,
     ticketType: "paid",
     ticketPrice: 1200,
     coverImage:
-      "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1200&q=80",
-    themeColor: "#065f46",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=80",
   },
+
   {
-    title: "Morning Yoga & Meditation Retreat",
-    description: `Start your weekend with peace and mindfulness by the beach!
+    title: "Bangladesh Robotics Olympiad",
+    description: `A robotics competition for school and college students.
 
-Session includes:
-- 60-minute Hatha Yoga practice
-- 30-minute guided meditation
-- Breathing techniques (Pranayama)
-- Sound healing session
-- Healthy breakfast
+Competition tracks:
+- Line-following robots
+- Soccer bots
+- Rescue mission bots
+- Autonomous navigation
 
-Suitable for all levels - modifications provided for beginners. Our certified instructor creates a welcoming space for everyone.
-
-Yoga mats provided. Please wear comfortable clothing.`,
-    category: "health",
-    tags: ["health", "yoga", "meditation", "wellness"],
-    city: "Cox's Bazar",
-    state: "Chittagong",
-    venue: "https://maps.google.com/?q=Laboni+Beach+Coxs+Bazar",
-    address: "Laboni Beach Point, Cox's Bazar",
-    capacity: 35,
-    ticketType: "paid",
-    ticketPrice: 500,
-    coverImage:
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80",
-    themeColor: "#4c1d95",
-  },
-  {
-    title: "Gaming Tournament - Valorant Championship",
-    description: `Compete in the ultimate Valorant showdown in Dhaka!
-
-Tournament format:
-- 16 teams (5v5)
-- Single elimination bracket
-- Best of 3 matches
-- Prize pool: 50,000 BDT
-- Live streaming on Twitch
-
-All skill levels welcome. Bring your own peripherals (mouse, headset). High-spec PCs and stable internet provided.
-
-Energy drinks and snacks available. Exciting commentary and crowd interaction!`,
-    category: "gaming",
-    tags: ["gaming", "esports", "valorant", "tournament"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=Jamuna+Future+Park+Dhaka",
-    address: "Game Zone, Jamuna Future Park, Baridhara, Dhaka",
-    capacity: 80,
-    ticketType: "paid",
-    ticketPrice: 200,
-    coverImage:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&q=80",
-    themeColor: "#7f1d1d",
-  },
-  {
-    title: "Women in Tech: Leadership Panel Discussion",
-    description: `Inspiring stories and insights from women leaders in technology across Bangladesh!
-
-Panel features:
-- CTOs from top startups
-- Engineering managers from global firms
-- Successful tech entrepreneurs
-- VC partners focusing on women-led startups
-
-Topics covered:
-- Breaking barriers in tech
-- Building inclusive teams
-- Work-life integration
-- Career growth strategies
-- Mentorship importance
-
-Open to all genders. Q&A session and networking lunch included.`,
-    category: "networking",
-    tags: ["networking", "women-in-tech", "leadership", "career"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=GP+House+Dhaka",
-    address: "GP House, Bashundhara, Dhaka",
-    capacity: 40,
-    ticketType: "free",
-    coverImage:
-      "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1200&q=80",
-    themeColor: "#831843",
-  },
-  {
-    title: "Adventure Trekking - Nilgiri Hill",
-    description: `Experience the majestic landscapes of Bandarban on this exciting trek!
-
-Itinerary:
-- Day 1: Bandarban Town to Nilgiri
-- Overnight camping under stars
-- Day 2: Sunrise view & descent
-- Visit to local tribal villages
-
-Package includes:
-- Experienced trek leader
-- Camping gear (tents, sleeping bags)
-- All meals during trek
-- First aid kit
-- Photography assistance
-
-Moderate fitness level required. Age 16+ recommended.`,
-    category: "outdoor",
-    tags: ["outdoor", "trekking", "adventure", "camping"],
-    city: "Bandarban",
-    state: "Chittagong",
-    venue: "https://maps.google.com/?q=Nilgiri+Bandarban",
-    address: "Nilgiri Hill Resort Area, Bandarban",
-    capacity: 20,
-    ticketType: "paid",
-    ticketPrice: 3000,
-    coverImage:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80",
-    themeColor: "#065f46",
-  },
-  {
-    title: "Community Clean-up Drive - Cox's Bazar Beach",
-    description: `Join hands to keep our beaches clean and beautiful!
-
-Activity plan:
-- Beach cleanup (2 hours)
-- Waste segregation workshop
-- Marine conservation talk
-- Group photo session
-- Certificate of participation
-
-All cleaning materials provided. Wear comfortable clothes you don't mind getting dirty. Sunscreen and hat recommended.
-
-Refreshments provided. A great way to give back to nature while meeting like-minded people!`,
-    category: "community",
-    tags: ["community", "environment", "volunteer", "beach"],
-    city: "Cox's Bazar",
-    state: "Chittagong",
-    venue: "https://maps.google.com/?q=Laboni+Beach+Coxs+Bazar",
-    address: "Laboni Beach, Cox's Bazar",
-    capacity: 100,
-    ticketType: "free",
-    coverImage:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
-    themeColor: "#1e3a8a",
-  },
-  {
-    title: "JavaScript Performance Optimization Masterclass",
-    description: `Level up your JS skills with advanced performance techniques!
-
-Topics covered:
-- Memory management & garbage collection
-- Event loop deep dive
-- Web Workers & multithreading
-- Code splitting strategies
-- Bundle optimization with Webpack/Vite
-- React performance patterns
-- Profiling with Chrome DevTools
-
-Intermediate JavaScript knowledge required. Bring your laptop with Node.js installed.
-
-Code examples and cheat sheets provided.`,
+Workshops and mentoring sessions available for beginners.`,
     category: "tech",
-    tags: ["tech", "javascript", "performance", "advanced"],
-    city: "Comilla",
-    state: "Chittagong",
-    venue: "https://maps.google.com/?q=Comilla+University",
-    address: "Comilla University Campus, Comilla",
-    capacity: 40,
-    ticketType: "paid",
-    ticketPrice: 1000,
-    coverImage:
-      "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=1200&q=80",
-    themeColor: "#92400e",
-  },
-  {
-    title: "Indie Game Dev Jam - Dhaka Challenge",
-    description: `Create a game from scratch in 48 hours!
-
-Event highlights:
-- Theme revealed at start
-- Solo or team participation (max 4)
-- Mentorship from local devs
-- Game engine workshops (Unity/Godot)
-- Asset creation support
-- Final showcase & judging
-
-Prizes for:
-- Best Overall Game
-- Most Innovative Mechanic
-- Best Art Style
-- People's Choice
-
-Sleeping bags welcome. Food and drinks provided throughout.`,
-    category: "gaming",
-    tags: ["gaming", "game-development", "hackathon", "indie"],
+    tags: ["robotics", "competition", "students", "engineering"],
     city: "Dhaka",
     state: "Dhaka",
-    venue: "https://maps.google.com/?q=ICT+Tower+Dhaka",
-    address: "ICT Tower, Agargaon, Dhaka",
-    capacity: 60,
-    ticketType: "paid",
-    ticketPrice: 500,
-    coverImage:
-      "https://images.unsplash.com/photo-1556438064-2d7646166914?w=1200&q=80",
-    themeColor: "#4c1d95",
-  },
-  {
-    title: "AI Product Building Workshop - From Idea to MVP",
-    description: `Learn to build AI-powered products from scratch in this hands-on workshop!
-
-What you'll build:
-- AI-powered customer support chatbot
-- Intelligent document summarizer
-- Smart recommendation engine prototype
-
-Skills covered:
-- Product ideation with AI capabilities
-- API integration (OpenAI, Anthropic, Google)
-- Prompt engineering for production
-- UI/UX for AI products
-- Deployment and scaling basics
-
-Perfect for product managers, entrepreneurs, and developers looking to add AI to their toolkit. No prior ML experience needed - we focus on practical application!
-
-Lunch and refreshments included. Bring your laptop!`,
-    category: "tech",
-    tags: ["tech", "ai", "product", "startup"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=Banani+Club+Dhaka",
-    address: "Road 11, Banani, Dhaka",
-    capacity: 40,
-    ticketType: "paid",
-    ticketPrice: 1500,
-    coverImage:
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&q=80",
-    themeColor: "#4c1d95",
-  },
-  {
-    title: "Startup Founder's Breakfast - Funding & Growth Stories",
-    description: `Connect with fellow founders and learn from successful entrepreneurs over breakfast!
-
-Featured speakers:
-- Successful founder sharing fundraising journey
-- Angel investor revealing what they look for
-- Growth hacker with proven scaling strategies
-- Local entrepreneur sharing lessons learned
-
-Agenda:
-- 8:00 AM - Networking breakfast
-- 9:00 AM - Panel discussion
-- 10:00 AM - Q&A session
-- 10:30 AM - One-on-one speed networking
-
-This intimate gathering is perfect for early-stage founders, aspiring entrepreneurs, and anyone interested in the startup ecosystem.
-
-Continental breakfast and unlimited coffee included!`,
-    category: "business",
-    tags: ["business", "startup", "networking", "entrepreneurship"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=Gulshan+Club+Dhaka",
-    address: "Gulshan 2, Dhaka",
-    capacity: 35,
-    ticketType: "paid",
-    ticketPrice: 400,
-    coverImage:
-      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=1200&q=80",
-    themeColor: "#065f46",
-  },
-  {
-    title: "Weekend Photography Masterclass - Portrait & Street",
-    description: `Elevate your photography skills with professional techniques!
-
-Day 1 - Portrait Photography:
-- Lighting setups (natural & artificial)
-- Posing and directing subjects
-- Camera settings for portraits
-- Live model shoot session
-- Post-processing in Lightroom
-
-Day 2 - Street Photography:
-- Finding compelling stories
-- Composition techniques
-- Candid vs posed shots
-- Photo walk in Puran Dhaka
-- Ethics in street photography
-
-Equipment: DSLR/Mirrorless camera required (no phone cameras for this workshop). Tripod optional.
-
-All skill levels welcome. You'll leave with a portfolio of stunning images!
-
-Snacks and beverages provided both days.`,
-    category: "art",
-    tags: ["art", "photography", "workshop", "creative"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=Gallery+21+Dhaka",
-    address: "Gallery 21, Dhanmondi, Dhaka",
-    capacity: 20,
-    ticketType: "paid",
-    ticketPrice: 2500,
-    coverImage:
-      "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1200&q=80",
-    themeColor: "#92400e",
-  },
-  {
-    title: "Corporate Cricket Tournament - Season 1",
-    description: `The biggest corporate cricket showdown in Dhaka is here!
-
-Tournament format:
-- 12 corporate teams competing
-- T10 format (10 overs per side)
-- League stage + knockout rounds
-- Professional umpires and scoring
-- Live commentary
-
-Prizes:
-- Winner: 1,00,000 BDT + Trophy
-- Runner-up: 50,000 BDT
-- Best Batsman, Bowler & Player awards
-
-Register your company team (11 players + 4 substitutes). Individual registrations also open - we'll form mixed teams.
-
-What's included:
-- Professional cricket ground
-- Match balls and equipment
-- Refreshments throughout
-- Team jerseys
-- Photos & videos
-
-Perfect for team building and corporate bonding!`,
-    category: "sports",
-    tags: ["sports", "cricket", "corporate", "tournament"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=Mirpur+Cricket+Ground+Dhaka",
-    address: "Sher-e-Bangla National Cricket Stadium Area, Mirpur, Dhaka",
-    capacity: 180,
-    ticketType: "paid",
-    ticketPrice: 500,
-    coverImage:
-      "https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=1200&q=80",
-    themeColor: "#065f46",
-  },
-  {
-    title: "Mindfulness & Stress Management for Professionals",
-    description: `Combat workplace stress with evidence-based mindfulness techniques!
-
-This workshop is designed for busy professionals who want to:
-- Reduce anxiety and stress
-- Improve focus and productivity
-- Better manage work-life balance
-- Build emotional resilience
-- Enhance decision-making clarity
-
-Session includes:
-- Understanding stress response
-- Guided meditation practice
-- Breathing techniques for instant calm
-- Mindful communication at work
-- Creating daily wellness routines
-- Apps and tools for continued practice
-
-Led by a certified mindfulness coach with 10+ years of corporate wellness experience.
-
-Yoga mats and meditation cushions provided. Wear comfortable clothing.
-
-Healthy snacks and herbal teas included.`,
-    category: "health",
-    tags: ["health", "wellness", "mindfulness", "corporate"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=Dhanmondi+Lake+Yoga+Zone",
-    address: "Dhanmondi Lake Area, Road 32, Dhaka",
-    capacity: 25,
-    ticketType: "paid",
-    ticketPrice: 900,
-    coverImage:
-      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&q=80",
-    themeColor: "#831843",
-  },
-  {
-    title: "Pizza Palooza: A Slice of Dhaka",
-    description: `Join us for an evening of pizza making and tasting! Learn the secrets to crafting the perfect pizza dough and discover a variety of delicious toppings. You'll leave with new skills and a full stomach.`,
-    category: "food",
-    tags: ["food"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=Banani+Dhaka",
-    address: "Plot 12, Road 11, Banani, Dhaka",
-    capacity: 10,
-    ticketType: "free",
-    coverImage:
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkyNzJ8MHwxfHNlYXJjaHwxfHxwaXp6YXxlbnwwfHx8fDE3NjI5NTA5NTh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    themeColor: "#831843",
-  },
-  {
-    title: "React & Next.js: Building the Future of Web Applications",
-    description: `Explore the latest advancements in React and Next.js, and discover how these technologies are shaping modern web development. This event provides insights into server-side rendering, performance optimization, and the future roadmap for building scalable and efficient web applications. Attendees will gain practical knowledge and explore best practices for leveraging these powerful tools.`,
-    category: "tech",
-    tags: ["tech"],
-    city: "Dhaka",
-    state: "Dhaka",
-    venue: "https://maps.google.com/?q=GP+House+Dhaka",
-    address: "GP House, Bashundhara, Dhaka",
-    capacity: 75,
+    venue: "https://maps.google.com/?q=Ahsanullah+University",
+    address: "AUST Campus, Tejgaon, Dhaka",
+    capacity: 220,
     ticketType: "paid",
     ticketPrice: 250,
     coverImage:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkyNzJ8MHwxfHNlYXJjaHwxfHxyZWFjdCUyMGpzfGVufDB8fHx8MTc2Mjk0NjQ4M3ww&ixlib=rb-4.1.0&q=80&w=1080",
-    themeColor: "#1e3a8a",
+      "https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=1200&q=80",
   },
+
+  {
+    title: "Traditional Pitha Utshob",
+    description: `Celebrate winter with traditional Bangladeshi pitha and folk culture.
+
+Enjoy:
+- Bhapa pitha
+- Chitoi pitha
+- Patishapta
+- Folk music
+- Live cooking demonstrations
+
+Family-friendly environment with cultural performances.`,
+    category: "food",
+    tags: ["pitha", "culture", "winter", "food"],
+    city: "Rangpur",
+    state: "Rangpur",
+    venue: "https://maps.google.com/?q=Town+Hall+Rangpur",
+    address: "Town Hall মাঠ, Rangpur",
+    capacity: 350,
+    ticketType: "free",
+    coverImage:
+      "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=1200&q=80",
+  },
+
+  {
+    title: "Freelancers Meetup Bangladesh",
+    description: `Connect with freelancers from across Bangladesh and learn how to grow your online career.
+
+Topics:
+- Upwork strategies
+- Fiverr gig optimization
+- Client communication
+- International payments
+- Personal branding
+
+Experienced freelancers will share real case studies.`,
+    category: "business",
+    tags: ["freelancing", "career", "business"],
+    city: "Dhaka",
+    state: "Dhaka",
+    venue: "https://maps.google.com/?q=BRAC+Center+Inn+Dhaka",
+    address: "Mohakhali, Dhaka",
+    capacity: 140,
+    ticketType: "paid",
+    ticketPrice: 200,
+    coverImage:
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80",
+  },
+
+  {
+    title: "Night Cricket Tournament - Ramadan Special",
+    description: `Late-night cricket tournament during Ramadan under floodlights.
+
+Features:
+- T10 matches
+- Sehri arrangements
+- Team jerseys
+- Commentary booth
+
+Winning team receives trophy and cash prize.`,
+    category: "sports",
+    tags: ["cricket", "ramadan", "sports", "tournament"],
+    city: "Khulna",
+    state: "Khulna",
+    venue: "https://maps.google.com/?q=Khulna+District+Stadium",
+    address: "Khulna District Stadium",
+    capacity: 250,
+    ticketType: "paid",
+    ticketPrice: 300,
+    coverImage:
+      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200&q=80",
+  },
+
+  {
+    title: "Sundarbans Eco Adventure Camp",
+    description: `Explore the beauty of the Sundarbans with guided eco-tour activities.
+
+Activities:
+- Mangrove exploration
+- Wildlife spotting
+- Boat camping
+- Local village visits
+
+Safety equipment and guides provided.`,
+    category: "outdoor",
+    tags: ["travel", "nature", "camping", "adventure"],
+    city: "Satkhira",
+    state: "Khulna",
+    venue: "https://maps.google.com/?q=Sundarbans+Satkhira",
+    address: "Sundarbans Entry Point, Satkhira",
+    capacity: 40,
+    ticketType: "paid",
+    ticketPrice: 4500,
+    coverImage:
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80",
+  },
+
+  {
+    title: "Bangla Book Reading Circle",
+    description: `A community gathering for Bangla literature lovers.
+
+This month's discussion:
+- Works of রবীন্দ্রনাথ ঠাকুর
+- Modern Bangla fiction
+- Poetry recitation
+
+Tea and snacks included because intellectual discussions apparently require synchronized biscuit dipping.`,
+    category: "education",
+    tags: ["books", "literature", "culture"],
+    city: "Chittagong",
+    state: "Chittagong",
+    venue: "https://maps.google.com/?q=Chittagong+Public+Library",
+    address: "Public Library Hall, Chittagong",
+    capacity: 60,
+    ticketType: "free",
+    coverImage:
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1200&q=80",
+  }
 ];
 
 // Helper functions
