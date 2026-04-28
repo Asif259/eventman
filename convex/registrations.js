@@ -38,6 +38,10 @@ export const registerForEvent = mutation({
       throw new Error("Event not found");
     }
 
+    if (event.isProOnly && !user.isPro) {
+      throw new Error("This event is exclusively for Pro members");
+    }
+
     // event is full
     if (event.registrationCount >= event.capacity) {
       throw new Error("Event is full");

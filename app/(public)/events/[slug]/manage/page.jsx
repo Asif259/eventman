@@ -265,7 +265,12 @@ export default function EventManagePage() {
                           <span>
                             {event.locationType === "online"
                               ? "Online"
-                              : `${event.city}, ${event.state || event.country}`}
+                              : [
+                                  event.city,
+                                  event.state || event.country,
+                                ]
+                                  .filter(Boolean)
+                                  .join(", ")}
                           </span>
                         </div>
                       </div>

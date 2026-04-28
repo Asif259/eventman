@@ -64,6 +64,7 @@ const eventSchema = z.object({
     ticketType: z.enum(["free", "paid"]).default("free"),
     ticketPrice: z.union([z.number(), z.nan()]).optional(),
     coverImage: z.string().optional(),
+    isProOnly: z.boolean().default(false),
 }).refine(data => {
     if (data.ticketType === "paid") {
         return typeof data.ticketPrice === 'number' && !isNaN(data.ticketPrice) && data.ticketPrice > 0;
@@ -107,6 +108,7 @@ export default function CreateEventPage() {
             city: "",
             startTime: "",
             endTime: "",
+            isProOnly: false,
         },
     });
 
@@ -117,6 +119,7 @@ export default function CreateEventPage() {
     const startDate = watch("startDate");
     const endDate = watch("endDate");
     const coverImage = watch("coverImage");
+    const isProOnly = watch("isProOnly");
     const selectedState = useWatch({
         control,
         name: "state",
@@ -179,6 +182,7 @@ export default function CreateEventPage() {
                 ticketType: data.ticketType,
                 ticketPrice: data.ticketPrice || undefined,
                 coverImage: data.coverImage || undefined,
+                isProOnly: data.isProOnly,
                 hasPro,
             });
 
@@ -516,6 +520,25 @@ export default function CreateEventPage() {
                         {errors.capacity && (
                             <p className="text-sm text-red-300 font-medium">{errors.capacity.message}</p>
                         )}
+                    </div>
+
+                    {/* Pro Only Toggle */}
+                    <div className="flex flex-col space-y-2 pt-2 border-t border-[#27272A]">
+                        <Label className="text-sm font-semibold flex items-center gap-2">
+                            <Sparkles className="w-4 h-4 text-[#CCFF00]" />
+                            Pro-Only Event
+                        </Label>
+                        <p className="text-xs text-muted-foreground">
+                            Restrict this event so only Nexus Pro members can register.
+                        </p>
+                        <label className="flex items-center gap-2 mt-2">
+                            <input 
+                                type="checkbox" 
+                                {...register("isProOnly")}
+                                className="w-4 h-4 accent-[#CCFF00]"
+                            />
+                            <span className="text-sm">Make event Pro-Only</span>
+                        </label>
                     </div>
 
                     {/* Submit */}

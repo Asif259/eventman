@@ -23,6 +23,9 @@ export default defineSchema({
     ),
     interests: v.optional(v.array(v.string())), // Min 3 categories
 
+    // Pro membership (synced from Clerk)
+    isPro: v.optional(v.boolean()),
+
     // Organizer tracking (User Subscription)
     freeEventsCreated: v.number(), // Track free event limit (1 free)
 
@@ -63,6 +66,7 @@ export default defineSchema({
     ticketType: v.union(v.literal("free"), v.literal("paid")),
     ticketPrice: v.optional(v.number()), // Paid at event offline
     registrationCount: v.number(),
+    isProOnly: v.optional(v.boolean()),
 
     // Customization
     coverImage: v.optional(v.string()),

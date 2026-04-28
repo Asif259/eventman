@@ -122,7 +122,7 @@ export default function QRScannerModal({ isOpen, onClose }) {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <QrCode className="w-5 h-5 text-purple-500" />
+            <QrCode className="w-5 h-5 text-primary" />
             Check-In Attendee
           </DialogTitle>
           <DialogDescription>
@@ -141,7 +141,7 @@ export default function QRScannerModal({ isOpen, onClose }) {
             ></div>
             {!scannerReady && (
               <div className="flex items-center justify-center py-4">
-                <Loader2 className="w-6 h-6 animate-spin text-purple-500" />
+                <Loader2 className="w-6 h-6 animate-spin text-primary" />
                 <span className="ml-2 text-sm text-muted-foreground">
                   Starting camera...
                 </span>

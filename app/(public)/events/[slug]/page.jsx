@@ -17,11 +17,12 @@ import {
   ExternalLink,
   Loader2,
   CheckCircle,
+  Lock,
 } from "lucide-react";
 import { useConvexQuery } from "@/hooks/use-convex-query";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useAuth } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,6 +38,8 @@ export default function EventDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { user } = useUser();
+  const { has } = useAuth();
+  const isPro = has?.({ plan: "pro" }) || user?.publicMetadata?.isPro;
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const { data: currentUser } = useConvexQuery(api.users.getCurrentUser);
 
@@ -89,7 +92,7 @@ export default function EventDetailPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -107,9 +110,16 @@ export default function EventDetailPage() {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Event Title & Info */}
         <div className="mb-8">
-          <Badge variant="secondary" className="mb-3">
-            {getCategoryIcon(event.category)} {getCategoryLabel(event.category)}
-          </Badge>
+          <div className="flex items-center gap-2 mb-3">
+            <Badge variant="secondary">
+              {getCategoryIcon(event.category)} {getCategoryLabel(event.category)}
+            </Badge>
+            {event.isProOnly && (
+              <Badge className="bg-pro hover:bg-pro/90 border-none px-2 py-0.5 text-[10px] font-mono tracking-wider uppercase">
+                Nexus Pro
+              </Badge>
+            )}
+          </div>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">{event.title}</h1>
           <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
             <div className="flex items-center gap-2">
@@ -161,7 +171,7 @@ export default function EventDetailPage() {
             <Card className="pt-0 bg-[#0A0A0A] border-[#27272A]">
               <CardContent className="pt-6">
                 <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                  <MapPin className="w-6 h-6 text-purple-500" />
+                  <MapPin className="w-6 h-6 text-primary" />
                   Location
                 </h2>
 
@@ -219,15 +229,30 @@ export default function EventDetailPage() {
                 {/* Price */}
                 <div>
                   <p className="text-sm text-muted-foreground mb-1">Price</p>
-                  <p className="text-3xl font-bold">
-                    {event.ticketType === "free"
-                      ? "Free"
-                      : `₹${event.ticketPrice}`}
-                  </p>
-                  {event.ticketType === "paid" && (
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Pay at event offline
-                    </p>
+                  
+                  {event.ticketType === "free" ? (
+                    <p className="text-3xl font-bold">Free</p>
+                  ) : (
+                    <div className="flex flex-col gap-1">
+                      {isPro ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <p className="text-3xl font-bold text-[#CCFF00]">
+                              ₹{(event.ticketPrice * 0.9).toFixed(2)}
+                            </p>
+                            <Badge className="bg-[#CCFF00] text-black hover:bg-[#CCFF00]/80">PRO 10% OFF</Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground line-through">
+                            ₹{event.ticketPrice}
+                          </p>
+                        </>
+                      ) : (
+                        <p className="text-3xl font-bold">₹{event.ticketPrice}</p>
+                      )}
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Pay at event offline
+                      </p>
+                    </div>
                   )}
                 </div>
 
@@ -300,6 +325,11 @@ export default function EventDetailPage() {
                   >
                     Manage Event
                   </Button>
+                ) : event.isProOnly && !isPro ? (
+                  <Button className="w-full gap-2 bg-[#27272A] text-white hover:bg-[#27272A]/80 cursor-not-allowed">
+                    <Lock className="w-4 h-4 text-[#CCFF00]" />
+                    Pro Members Only
+                  </Button>
                 ) : (
                   <Button className="w-full gap-2 cursor-pointer" onClick={handleRegister}>
                     <Ticket className="w-4 h-4" />
@@ -328,6 +358,7 @@ export default function EventDetailPage() {
           event={event}
           isOpen={showRegisterModal}
           onClose={() => setShowRegisterModal(false)}
+          isPro={isPro}
         />
       )}
     </div>

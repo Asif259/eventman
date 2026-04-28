@@ -22,10 +22,19 @@ export const store = mutation({
       )
       .unique();
     if (user !== null) {
-      // If we've seen this identity before but the name has changed, patch the value.
+      // If we've seen this identity before, sync name and Pro status.
       const newName = identity.name ?? "Anonymous";
+      const updates = {};
       if (user.name !== newName) {
-        await ctx.db.patch(user._id, { name: newName });
+        updates.name = newName;
+      }
+      // Sync Pro status from Clerk's public metadata in JWT
+      const isPro = identity.publicMetadata?.isPro === true;
+      if (user.isPro !== isPro) {
+        updates.isPro = isPro;
+      }
+      if (Object.keys(updates).length > 0) {
+        await ctx.db.patch(user._id, updates);
       }
       return user._id;
     }
@@ -95,6 +104,34 @@ export const completeOnboarding = mutation({
       hasCompletedOnboarding: true,
       updatedAt: Date.now(),
     });
+
+    return user._id;
+  },
+});
+
+// Sync Pro status from Clerk (called by frontend when Pro status changes)
+export const syncProStatus = mutation({
+  args: {
+    isPro: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier))
+      .unique();
+
+    if (!user) throw new Error("User not found");
+
+    // Only update if changed
+    if (user.isPro !== args.isPro) {
+      await ctx.db.patch(user._id, {
+        isPro: args.isPro,
+        updatedAt: Date.now(),
+      });
+    }
 
     return user._id;
   },

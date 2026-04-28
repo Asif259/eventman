@@ -63,7 +63,7 @@ export default function UnsplashImagePicker({ isOpen, onClose, onSelect }) {
         <div className="overflow-y-auto flex-1 -mx-6 px-6">
           {loading ? (
             <div className="flex items-center justify-center h-64">
-              <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-4 py-4">

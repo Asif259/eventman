@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Users, ArrowRight, Loader2 } from "lucide-react";
 import { format } from "date-fns";
+import { useAuth } from "@clerk/nextjs";
 import { useConvexQuery } from "@/hooks/use-convex-query";
 import { api } from "@/convex/_generated/api";
 import { createLocationSlug } from "@/lib/location-utils";
@@ -22,8 +23,14 @@ import {
 import { CATEGORIES } from "@/lib/data";
 import EventCard from "@/components/event-card";
 
+const DEFAULT_CITY = "Dhaka";
+const DEFAULT_STATE = "Dhaka";
+const DEFAULT_COUNTRY = "Bangladesh";
+
 export default function ExplorePage() {
   const router = useRouter();
+  const { has } = useAuth();
+  const hasPro = has?.({ plan: 'pro' }) ?? false;
 
   // Fetch current user for location
   const { data: currentUser } = useConvexQuery(api.users.getCurrentUser);
@@ -31,25 +38,27 @@ export default function ExplorePage() {
   // Fetch events
   const { data: featuredEvents, isLoading: loadingFeatured } = useConvexQuery(
     api.explore.getFeaturedEvents,
-    { limit: 3 }
+    { limit: 3, isProUser: hasPro }
   );
 
   const { data: localEvents, isLoading: loadingLocal } = useConvexQuery(
     api.explore.getEventsByLocation,
     {
-      city: currentUser?.location?.city || "New Delhi",
-      state: currentUser?.location?.state || "Delhi",
+      city: currentUser?.location?.city || DEFAULT_CITY,
+      state: currentUser?.location?.state || DEFAULT_STATE,
       limit: 4,
+      isProUser: hasPro,
     }
   );
 
   const { data: popularEvents, isLoading: loadingPopular } = useConvexQuery(
     api.explore.getPopularEvents,
-    { limit: 6 }
+    { limit: 6, isProUser: hasPro }
   );
 
   const { data: categoryCounts } = useConvexQuery(
-    api.explore.getCategoryCounts
+    api.explore.getCategoryCounts,
+    { isProUser: hasPro }
   );
 
   const handleEventClick = (slug) => {
@@ -61,8 +70,8 @@ export default function ExplorePage() {
   };
 
   const handleViewLocalEvents = () => {
-    const city = currentUser?.location?.city || "New Delhi";
-    const state = currentUser?.location?.state || "Delhi";
+    const city = currentUser?.location?.city || DEFAULT_CITY;
+    const state = currentUser?.location?.state || DEFAULT_STATE;
     const slug = createLocationSlug(city, state);
     router.push(`/explore/${slug}`);
   };
@@ -79,7 +88,7 @@ export default function ExplorePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -91,7 +100,7 @@ export default function ExplorePage() {
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4">Discover Events</h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
           Explore featured events, find what&apos;s happening locally, or browse
-          events across {currentUser?.location?.country || "India"}
+          events across {currentUser?.location?.country || DEFAULT_COUNTRY}
         </p>
       </div>
 
@@ -124,7 +133,7 @@ export default function ExplorePage() {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/60 to-transparent" />
                     <div className="relative h-full flex flex-col justify-end p-4 sm:p-6 md:p-12">
-                      <Badge className="w-fit mb-4 bg-purple-500/20 text-purple-200 hover:bg-purple-500/30 border-purple-500/30 py-1 px-3 backdrop-blur-md" variant="outline">
+                      <Badge className="w-fit mb-4 bg-primary/70 text-white hover:bg-primary/90 border-primary py-1 px-3 backdrop-blur-md" variant="outline">
                         {event.city}, {event.state || event.country}
                       </Badge>
                       <h2 className="text-xl sm:text-2xl md:text-5xl font-bold mb-2 md:mb-4 text-white leading-tight">
@@ -135,7 +144,7 @@ export default function ExplorePage() {
                       </p>
                       <div className="flex flex-wrap items-center gap-6 text-white/80">
                         <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
-                          <Calendar className="w-4 h-4 text-purple-400" />
+                          <Calendar className="w-4 h-4 text-primary" />
                           <span className="text-sm font-medium">
                             {format(event.startDate, "PPP")}
                           </span>
@@ -173,8 +182,8 @@ export default function ExplorePage() {
               </p>
             </div>
             <Button
-              variant="outline"
-              className="gap-2 hidden sm:flex"
+              variant="ghost"
+              className="gap-2 hidden sm:flex text-primary hover:text-primary-90 cursor-pointer"
               onClick={handleViewLocalEvents}
             >
               View All <ArrowRight className="w-4 h-4" />
@@ -204,15 +213,15 @@ export default function ExplorePage() {
           {categoriesWithCounts.map((category) => (
             <Card
               key={category.id}
-              className="group cursor-pointer bg-zinc-900/40 border-zinc-800 hover:bg-zinc-900/80 hover:border-purple-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10"
+              className="group cursor-pointer bg-zinc-900/40 border-zinc-800 hover:bg-zinc-900/80 hover:border-primary/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
               onClick={() => handleCategoryClick(category.id)}
             >
               <CardContent className="p-5 flex items-center gap-4">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/5 text-2xl group-hover:bg-purple-500/20 group-hover:border-purple-500/30 transition-colors">
+                <div className="p-3 rounded-xl bg-white/5 border border-white/5 text-2xl group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors">
                   {category.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-zinc-100 group-hover:text-purple-400 transition-colors truncate">
+                  <h3 className="font-semibold text-zinc-100 group-hover:text-primary/90 transition-colors truncate">
                     {category.label}
                   </h3>
                   <p className="text-sm text-zinc-500 mt-0.5 font-medium">
@@ -230,10 +239,10 @@ export default function ExplorePage() {
         <div className="mb-20">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-2">Popular Across {currentUser?.location?.country || "India"}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">Popular Across {currentUser?.location?.country || DEFAULT_COUNTRY}</h2>
               <p className="text-zinc-400">Trending events nationwide</p>
             </div>
-            <Button variant="ghost" className="gap-2 shrink-0 md:self-end text-purple-400 hover:text-purple-300" onClick={() => router.push('/events')}>
+            <Button variant="ghost" className="gap-2 shrink-0 md:self-end text-primary hover:text-primary-90" onClick={() => router.push('/events')}>
               View All <ArrowRight className="w-4 h-4" />
             </Button>
           </div>

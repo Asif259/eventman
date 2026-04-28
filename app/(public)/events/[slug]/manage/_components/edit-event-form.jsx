@@ -11,6 +11,7 @@ import { useConvexMutation } from "@/hooks/use-convex-query";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
+import { Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,6 +60,7 @@ const eventSchema = z.object({
     ticketType: z.enum(["free", "paid"]).default("free"),
     ticketPrice: z.union([z.number(), z.nan()]).optional(),
     coverImage: z.string().optional(),
+    isProOnly: z.boolean().default(false),
 }).refine(data => {
     if (data.ticketType === "paid") {
         return typeof data.ticketPrice === 'number' && !isNaN(data.ticketPrice) && data.ticketPrice > 0;
@@ -108,6 +110,7 @@ export default function EditEventForm({ event }) {
             startTime: formatTime(event.startDate),
             endTime: formatTime(event.endDate),
             coverImage: event.coverImage || "",
+            isProOnly: event.isProOnly || false,
         },
     });
 
@@ -170,6 +173,7 @@ export default function EditEventForm({ event }) {
                 ticketType: data.ticketType,
                 ticketPrice: data.ticketPrice || undefined,
                 coverImage: data.coverImage || undefined,
+                isProOnly: data.isProOnly,
             });
 
             toast.success("Event updated successfully! 🎉");
@@ -484,6 +488,25 @@ export default function EditEventForm({ event }) {
                     {errors.capacity && (
                         <p className="text-sm text-red-300 font-medium">{errors.capacity.message}</p>
                     )}
+                </div>
+
+                {/* Pro Only Toggle */}
+                <div className="flex flex-col space-y-2 pt-2 border-t border-[#27272A]">
+                    <Label className="text-sm font-semibold flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-[#CCFF00]" />
+                        Pro-Only Event
+                    </Label>
+                    <p className="text-xs text-muted-foreground">
+                        Restrict this event so only Nexus Pro members can register.
+                    </p>
+                    <label className="flex items-center gap-2 mt-2">
+                        <input 
+                            type="checkbox" 
+                            {...register("isProOnly")}
+                            className="w-4 h-4 accent-[#CCFF00]"
+                        />
+                        <span className="text-sm">Make event Pro-Only</span>
+                    </label>
                 </div>
 
                 {/* Submit */}

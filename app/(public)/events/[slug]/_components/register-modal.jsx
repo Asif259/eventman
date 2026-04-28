@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
-export default function RegisterModal({ event, isOpen, onClose }) {
+export default function RegisterModal({ event, isOpen, onClose, isPro }) {
   const router = useRouter();
   const { user } = useUser();
   const [name, setName] = useState(user?.fullName || "");
@@ -64,7 +64,13 @@ export default function RegisterModal({ event, isOpen, onClose }) {
       });
 
       if (!registrationId) {
-        return;
+        console.error("Registration failed: No registration ID returned from mutation", {
+          eventId: event._id,
+          name,
+          email,
+        });
+        throw new Error("Registration failed. Please try again.");
+        toast.error("Registration failed. Please try again.")
       }
 
       setIsSuccess(true);
@@ -126,16 +132,24 @@ export default function RegisterModal({ event, isOpen, onClose }) {
           {/* Event Summary */}
           <div className="bg-muted p-4 rounded-lg space-y-2">
             <p className="font-semibold">{event.title}</p>
-            <p className="text-sm text-muted-foreground">
+            <div className="text-sm text-muted-foreground flex items-center gap-2">
               {event.ticketType === "free" ? (
                 "Free Event"
               ) : (
                 <span>
-                  Price: ₹{event.ticketPrice}{" "}
+                  Price:{" "}
+                  {isPro ? (
+                    <>
+                      <span className="line-through text-muted-foreground/60">₹{event.ticketPrice}</span>{" "}
+                      <span className="text-[#CCFF00] font-bold text-base bg-black px-1.5 py-0.5 rounded">₹{(event.ticketPrice * 0.9).toFixed(2)}</span>
+                    </>
+                  ) : (
+                    <span className="font-medium text-foreground">₹{event.ticketPrice}</span>
+                  )}{" "}
                   <span className="text-xs">(Pay at venue)</span>
                 </span>
               )}
-            </p>
+            </div>
           </div>
 
           {/* Name */}

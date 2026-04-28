@@ -10,6 +10,7 @@ import { BarLoader } from "react-spinners";
 import { useStoreUser } from "@/hooks/use-store-user";
 import { useState } from "react";
 import { Plus, Ticket, Building, LogIn, Menu, X } from "lucide-react";
+import SearchLocationBar from "@/components/searchLocationBar";
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -49,7 +50,7 @@ export default function Header() {
               className={cn(
                 "text-xs px-2.5 py-0.5 transition-all duration-300 tracking-wide font-medium",
                 hasPro
-                  ? "bg-amber-500 text-white hover:bg-amber-600 border-none shadow-sm"
+                  ? "bg-pro text-white hover:bg-pro/90 border-none shadow-sm"
                   : "border-slate-200 text-slate-500 hover:bg-slate-50"
               )}
             >
@@ -58,10 +59,14 @@ export default function Header() {
             )}
           </div>
 
+          {/* Search bar — desktop */}
+          <div className="hidden md:flex flex-1 justify-center px-2 lg:px-6">
+            <SearchLocationBar />
+          </div>
+
           {/* Center nav links — desktop only */}
-          <div className="hidden md:flex flex-1 justify-center items-center gap-8 text-lg tracking-wider text-white/90">
-            <Link href="/explore" className="hover:text-white transition-colors">Browse Events</Link>
-            <Link href="/create-event" className="hover:text-white transition-colors">Create Events</Link>
+          <div className="hidden lg:flex items-center gap-4 xl:gap-8 text-sm xl:text-lg tracking-wider text-white/90">
+            <Link href="/explore" className="hover:text-white transition-colors">Explore</Link>
             <Link href="/about" className="hover:text-white transition-colors">About</Link>
             <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
           </div>
@@ -69,9 +74,9 @@ export default function Header() {
           <div className="flex items-center gap-3">
             {/* Auth buttons — desktop */}
             <Authenticated>
-              <Link href="/create-event" className="hidden md:block">
-                <Button variant="default" size="default" className="bg-primary hover:bg-primary/90 tracking-widest uppercase">
-                  <Plus className="h-4 w-4 mr-2" />
+              <Link href="/create-event" className="hidden md:block ml-2 text-sm xl:text-lg tracking-wider">
+                <Button variant="default" size="default" className="bg-primary hover:bg-primary/90 uppercase">
+                  <Plus className="h-4 w-4 px-0 mx-0" />
                   Create Event
                 </Button>
               </Link>
@@ -118,11 +123,16 @@ export default function Header() {
           </div>
         </div>
 
+        {/* Mobile Search Bar */}
+        <div className="md:hidden border-t border-white/10 px-4 py-3 bg-background/80 backdrop-blur-xl">
+          <SearchLocationBar />
+        </div>
+
         {/* Mobile Menu Panel */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-white/10 bg-background/95 backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="px-4 py-6 space-y-4">
-              <Link href="/explore" className="block py-3 text-lg tracking-wider text-white/90 hover:text-[#CCFF00] transition-colors" onClick={() => setMobileMenuOpen(false)}>Browse Events</Link>
+              <Link href="/explore" className="block py-3 text-lg tracking-wider text-white/90 hover:text-[#CCFF00] transition-colors" onClick={() => setMobileMenuOpen(false)}>Explore</Link>
               <Link href="/create-event" className="block py-3 text-lg tracking-wider text-white/90 hover:text-[#CCFF00] transition-colors" onClick={() => setMobileMenuOpen(false)}>Create Events</Link>
               <Link href="/about" className="block py-3 text-lg tracking-wider text-white/90 hover:text-[#CCFF00] transition-colors" onClick={() => setMobileMenuOpen(false)}>About</Link>
               <Link href="/contact" className="block py-3 text-lg tracking-wider text-white/90 hover:text-[#CCFF00] transition-colors" onClick={() => setMobileMenuOpen(false)}>Contact</Link>

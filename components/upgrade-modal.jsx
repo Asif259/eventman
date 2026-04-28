@@ -17,7 +17,7 @@ export default function UpgradeModal({ isOpen, onClose, trigger = "limit" }) {
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="w-6 h-6 text-purple-500" />
+            <Sparkles className="w-6 h-6 text-primary" />
             <DialogTitle className="text-2xl">Upgrade to Pro</DialogTitle>
           </div>
           <DialogDescription>

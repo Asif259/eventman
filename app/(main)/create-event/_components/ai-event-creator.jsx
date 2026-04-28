@@ -55,13 +55,13 @@ export default function AIEventCreator({ onEventGenerated }) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger render={<Button variant="outline" className="gap-2 bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-white border-dashed" />}>
-        <Sparkles className="w-4 h-4 text-purple-300" />
+        <Sparkles className="w-4 h-4 text-primary" />
         Generate with AI
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-purple-500" />
+            <Sparkles className="w-5 h-5 text-primary" />
             AI Event Creator
           </DialogTitle>
           <DialogDescription>

@@ -7,6 +7,7 @@ const locationTypeValidator = v.union(
 );
 const ticketTypeValidator = v.union(v.literal("free"), v.literal("paid"));
 
+// Helper function to get authenticated user
 async function getAuthenticatedUser(ctx) {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) {
@@ -34,6 +35,7 @@ function slugify(value) {
     .replace(/(^-|-$)/g, "");
 }
 
+// Helper function to generate unique slug
 function generateUniqueSlug(title) {
   const baseSlug = slugify(title) || "event";
   const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -61,6 +63,7 @@ export const createEvent = mutation({
     coverImage: v.optional(v.string()),
     themeColor: v.optional(v.string()),
     hasPro: v.optional(v.boolean()),
+    isProOnly: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const user = await getAuthenticatedUser(ctx);
@@ -95,6 +98,7 @@ export const createEvent = mutation({
       ticketType: args.ticketType,
       ticketPrice: args.ticketType === "paid" ? args.ticketPrice : undefined,
       registrationCount: 0,
+      isProOnly: args.isProOnly,
       coverImage: args.coverImage,
       themeColor: args.themeColor,
       createdAt: now,
@@ -110,6 +114,7 @@ export const createEvent = mutation({
   },
 });
 
+// Helper function to get event by slug
 export const getEventBySlug = query({
   args: {
     slug: v.string(),
@@ -189,6 +194,7 @@ export const updateEvent = mutation({
     ticketPrice: v.optional(v.number()),
     coverImage: v.optional(v.string()),
     themeColor: v.optional(v.string()),
+    isProOnly: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const user = await getAuthenticatedUser(ctx);
@@ -231,6 +237,7 @@ export const updateEvent = mutation({
       capacity: args.capacity,
       ticketType: args.ticketType,
       ticketPrice: args.ticketType === "paid" ? args.ticketPrice : undefined,
+      isProOnly: args.isProOnly,
       coverImage: args.coverImage,
       themeColor: args.themeColor,
       updatedAt: Date.now(),

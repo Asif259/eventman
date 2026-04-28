@@ -107,12 +107,12 @@ export default function OnboardingModal({ isOpen, onClose, onComplete }) {
           <DialogTitle className="flex items-center gap-2 text-2xl">
             {step === 1 ? (
               <>
-                <Heart className="w-6 h-6 text-purple-500" />
+                <Heart className="w-6 h-6 text-primary" />
                 What interests you?
               </>
             ) : (
               <>
-                <MapPin className="w-6 h-6 text-purple-500" />
+                <MapPin className="w-6 h-6 text-primary" />
                 Where are you located?
               </>
             )}
@@ -227,7 +227,7 @@ export default function OnboardingModal({ isOpen, onClose, onComplete }) {
               {location.city && location.state && (
                 <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
                   <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-purple-500 mt-0.5" />
+                    <MapPin className="w-5 h-5 text-primary mt-0.5" />
                     <div>
                       <p className="font-medium">Your location</p>
                       <p className="text-sm text-muted-foreground">

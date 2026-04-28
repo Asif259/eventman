@@ -30,7 +30,7 @@ export default function EventCard({
   if (variant === "list") {
     return (
       <Card
-        className={`py-0 group cursor-pointer hover:shadow-lg transition-all hover:border-purple-500/50 ${className}`}
+        className={`py-0 group cursor-pointer hover:shadow-lg transition-all hover:border-primary ${className}`}
         onClick={onClick}
       >
         <CardContent className="p-3 flex gap-3">
@@ -55,9 +55,16 @@ export default function EventCard({
 
           {/* Event Details */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm mb-1 group-hover:text-purple-400 transition-colors line-clamp-2">
-              {event.title}
-            </h3>
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <h3 className="font-semibold text-sm group-hover:text-primary transition-colors line-clamp-2">
+                {event.title}
+              </h3>
+              {event.isProOnly && (
+                <Badge className="bg-pro hover:bg-pro/90 py-0 px-1.5 h-4 text-[9px] font-mono border-none shrink-0">
+                  PRO
+                </Badge>
+              )}
+            </div>
             <p className="text-xs text-muted-foreground mb-1">
               {format(event.startDate, "EEE, dd MMM, HH:mm")}
             </p>
@@ -80,7 +87,7 @@ export default function EventCard({
   // Grid variant (default - original design)
   return (
     <Card
-      className={`overflow-hidden group pt-0 ${onClick ? "cursor-pointer hover:shadow-lg transition-all hover:border-purple-500/50" : ""} ${className}`}
+      className={`overflow-hidden group pt-0 transition-all duration-300 ${onClick ? "cursor-pointer hover:shadow-lg hover:border-primary" : ""} ${event.isProOnly ? "border-[#B415FF]" : ""} ${className}`}
       onClick={onClick}
     >
       <div className="relative h-48 overflow-hidden">
@@ -101,7 +108,12 @@ export default function EventCard({
             {getCategoryIcon(event.category)}
           </div>
         )}
-        <div className="absolute top-3 right-3">
+        <div className="absolute top-3 right-3 flex gap-2">
+          {event.isProOnly && (
+            <Badge className="bg-pro hover:bg-pro/90 border-none px-2 py-0.5 text-[10px] font-mono tracking-wider uppercase">
+              Pro Only
+            </Badge>
+          )}
           <Badge variant="secondary">
             {event.ticketType === "free" ? "Free" : "Paid"}
           </Badge>
@@ -110,10 +122,17 @@ export default function EventCard({
 
       <CardContent className="space-y-3">
         <div>
-          <Badge variant="outline" className="mb-2">
-            {getCategoryIcon(event.category)} {getCategoryLabel(event.category)}
-          </Badge>
-          <h3 className="font-semibold text-lg line-clamp-2 group-hover:text-purple-400 transition-colors">
+          <div className="flex items-center justify-between mb-2">
+            <Badge variant="outline" className="h-5">
+              {getCategoryIcon(event.category)} {getCategoryLabel(event.category)}
+            </Badge>
+            {event.isProOnly && (
+              <span className="text-[12px] font-mono font-bold text-pro uppercase tracking-widest">
+                Nexus Pro
+              </span>
+            )}
+          </div>
+          <h3 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors">
             {event.title}
           </h3>
         </div>
@@ -128,7 +147,9 @@ export default function EventCard({
             <span className="line-clamp-1">
               {event.locationType === "online"
                 ? "Online Event"
-                : `${event.city}, ${event.state || event.country}`}
+                : [event.city, event.state || event.country]
+                    .filter(Boolean)
+                    .join(", ")}
             </span>
           </div>
           <div className="flex items-center gap-2">

@@ -48,7 +48,7 @@ export default function MyTicketsPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -180,10 +180,13 @@ export default function MyTicketsPage() {
                     <span>
                       {selectedTicket.event.locationType === "online"
                         ? "Online Event"
-                        : `${selectedTicket.event.city}, ${
+                        : [
+                            selectedTicket.event.city,
                             selectedTicket.event.state ||
-                            selectedTicket.event.country
-                          }`}
+                              selectedTicket.event.country,
+                          ]
+                            .filter(Boolean)
+                            .join(", ")}
                     </span>
                   </div>
                 </div>
