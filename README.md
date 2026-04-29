@@ -8,11 +8,15 @@
 
 ## 📸 Screenshots
 
-*(Replace these placeholders with actual screenshots from your app)*
 
 | Landing Page | Explore Events | Create Events | My Tickets Page |
-| :---: | :---: | :---: |
-| <img src="https://drive.google.com/file/d/1BY5JzAVXuHQu1vqF3WWhsefEeLA9yDGz/view?usp=sharing" alt="Landing Page" width="300" /> | <img src="https://drive.google.com/file/d/1s01SRXMCYOV9_gUKOWQRuKQo80h54fsT/view?usp=sharing" alt="Explore Events Details" width="300" /> | <img src="https://drive.google.com/file/d/1hNZpnWwtJdaeDuxF3M4z2kpHNPttkMzT/view?usp=sharing" alt="Create Events" width="300" /> | <img src="https://drive.google.com/file/d/1L1h4nb13LZYqLRrVEs--0xrIi9tRPG4_/view?usp=sharing" alt="My Tickets Page" width="300" /> |
+| :---: | :---: | :---: | | :---: |
+<img width="2940" height="3486" alt="image" src="https://github.com/user-attachments/assets/52b5ccbb-7473-41eb-b497-9875482ec066" /> 
+<img width="2940" height="5086" alt="image" src="https://github.com/user-attachments/assets/429b734f-5afa-490b-b7b7-de1315580d7d" />
+<img width="2940" height="2712" alt="image" src="https://github.com/user-attachments/assets/b1969a88-b417-41f6-9dd6-84e8c22b7b7a" />
+<img width="2940" height="2182" alt="image" src="https://github.com/user-attachments/assets/dfb718f7-c521-47e5-904e-30c0276967c6" />
+
+
 | Discover events with advanced location filtering. | View details, ticket pricing, and register. | Scan QR codes and manage attendees. |
 
 ---
