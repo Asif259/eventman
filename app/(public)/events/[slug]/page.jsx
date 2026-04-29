@@ -18,8 +18,10 @@ import {
   Loader2,
   CheckCircle,
   Lock,
+  Zap,
+  ListOrdered,
 } from "lucide-react";
-import { useConvexQuery } from "@/hooks/use-convex-query";
+import { useConvexQuery, useConvexMutation } from "@/hooks/use-convex-query";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { useUser, useAuth } from "@clerk/nextjs";
@@ -31,6 +33,7 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getCategoryIcon, getCategoryLabel } from "@/lib/data";
 import RegisterModal from "./_components/register-modal";
+import ProBadge from "@/components/pro-badge";
 
 
 
@@ -52,6 +55,17 @@ export default function EventDetailPage() {
   const { data: registration } = useConvexQuery(
     api.registrations.checkRegistration,
     event?._id ? { eventId: event._id } : "skip"
+  );
+
+  // Check waitlist status
+  const { data: waitlistStatus } = useConvexQuery(
+    api.registrations.getWaitlistStatus,
+    event?._id ? { eventId: event._id } : "skip"
+  );
+
+  // Waitlist mutation
+  const { mutate: joinWaitlist, isLoading: isJoiningWaitlist } = useConvexMutation(
+    api.registrations.joinWaitlist
   );
 
   const handleShare = async () => {
@@ -104,6 +118,31 @@ export default function EventDetailPage() {
   const isEventFull = event.registrationCount >= event.capacity;
   const isEventPast = event.endDate < Date.now();
   const isOrganizer = currentUser?._id === event.organizerId;
+
+  // Early access: 48h window from creation
+  const EARLY_ACCESS_WINDOW = 48 * 60 * 60 * 1000;
+  const earlyAccessEndsAt = event._creationTime + EARLY_ACCESS_WINDOW;
+  const isInEarlyAccess = Date.now() < earlyAccessEndsAt;
+  const earlyAccessTimeLeft = Math.max(0, earlyAccessEndsAt - Date.now());
+  const earlyAccessHoursLeft = Math.floor(earlyAccessTimeLeft / (1000 * 60 * 60));
+  const earlyAccessMinutesLeft = Math.floor((earlyAccessTimeLeft % (1000 * 60 * 60)) / (1000 * 60));
+
+  const handleJoinWaitlist = async () => {
+    if (!user) {
+      toast.error("Please sign in to join the waitlist");
+      return;
+    }
+    try {
+      await joinWaitlist({
+        eventId: event._id,
+        attendeeName: user.fullName || "Anonymous",
+        attendeeEmail: user.primaryEmailAddress?.emailAddress || "",
+      });
+      toast.success("You've been added to the waitlist! 🎉");
+    } catch (err) {
+      toast.error(err.message || "Failed to join waitlist");
+    }
+  };
 
   return (
     <div className="min-h-screen py-6 md:py-8 -mt-6 md:-mt-16 lg:-mx-5 bg-[#0A0A0A]">
@@ -212,7 +251,9 @@ export default function EventDetailPage() {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold">{event.organizerName}</p>
+                    <p className="font-semibold flex items-center gap-1.5">
+                      {event.organizerName}
+                    </p>
                     <p className="text-sm text-muted-foreground">
                       Event Organizer
                     </p>
@@ -314,10 +355,6 @@ export default function EventDetailPage() {
                   <Button className="w-full" disabled>
                     Event Ended
                   </Button>
-                ) : isEventFull ? (
-                  <Button className="w-full" disabled>
-                    Event Full
-                  </Button>
                 ) : isOrganizer ? (
                   <Button
                     className="w-full bg-primary hover:bg-primary/90 cursor-pointer"
@@ -330,10 +367,49 @@ export default function EventDetailPage() {
                     <Lock className="w-4 h-4 text-[#CCFF00]" />
                     Pro Members Only
                   </Button>
+                ) : isInEarlyAccess && !isPro ? (
+                  <div className="space-y-2">
+                    <Button className="w-full gap-2 bg-[#27272A] text-white" disabled>
+                      <Zap className="w-4 h-4 text-[#CCFF00]" />
+                      Early Access — Pro Only
+                    </Button>
+                    <p className="text-xs text-center text-muted-foreground">
+                      Opens for everyone in{" "}
+                      <span className="text-[#CCFF00] font-semibold">
+                        {earlyAccessHoursLeft}h {earlyAccessMinutesLeft}m
+                      </span>
+                    </p>
+                  </div>
+                ) : isEventFull && !waitlistStatus ? (
+                  <Button
+                    className="w-full gap-2 cursor-pointer bg-amber-600 hover:bg-amber-700"
+                    onClick={handleJoinWaitlist}
+                    disabled={isJoiningWaitlist}
+                  >
+                    {isJoiningWaitlist ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <ListOrdered className="w-4 h-4" />
+                    )}
+                    Join Waitlist
+                  </Button>
+                ) : isEventFull && waitlistStatus ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-amber-400 bg-amber-950/40 p-3 rounded-lg">
+                      <ListOrdered className="w-5 h-5" />
+                      <span className="font-medium text-sm">
+                        Waitlist Position: #{waitlistStatus.position}
+                        {waitlistStatus.isPro && " (Priority)"}
+                      </span>
+                    </div>
+                    <p className="text-xs text-center text-muted-foreground">
+                      {waitlistStatus.totalInQueue} people in queue
+                    </p>
+                  </div>
                 ) : (
                   <Button className="w-full gap-2 cursor-pointer" onClick={handleRegister}>
                     <Ticket className="w-4 h-4" />
-                    Register for Event
+                    {isPro && isInEarlyAccess ? "Register (Early Access ⚡)" : "Register for Event"}
                   </Button>
                 )}
 

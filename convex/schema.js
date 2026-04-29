@@ -107,4 +107,16 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_event_user", ["userId", "eventId"])
     .index("by_qr_code", ["qrCode"]),
+
+  // Waitlist (when event is full)
+  waitlist: defineTable({
+    eventId: v.id("events"),
+    userId: v.id("users"),
+    attendeeName: v.string(),
+    attendeeEmail: v.string(),
+    isPro: v.boolean(),
+    joinedAt: v.number(),
+  })
+    .index("by_event", ["eventId"])
+    .index("by_event_user", ["userId", "eventId"]),
 });

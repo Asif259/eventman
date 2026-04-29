@@ -15,6 +15,7 @@ import SearchLocationBar from "@/components/searchLocationBar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import UpgradeModal from "@/components/upgrade-modal";
+import ProBadge from "@/components/pro-badge";
 
 export default function Header() {
 
@@ -45,17 +46,16 @@ export default function Header() {
 
             {/* Pro Badge */}
             { isAuthenticated && (
-              <Badge
-              variant={hasPro ? "default" : "outline"}
-              className={cn(
-                "text-xs px-2.5 py-0.5 transition-all duration-300 tracking-wide font-medium",
-                hasPro
-                  ? "bg-pro text-white hover:bg-pro/90 border-none shadow-sm"
-                  : "border-slate-200 text-slate-500 hover:bg-slate-50"
-              )}
-            >
-              {hasPro ? "Pro" : "Free"}
-            </Badge>
+              hasPro ? (
+                <ProBadge size="md" />
+              ) : (
+                <Badge
+                  variant="outline"
+                  className="text-xs px-2.5 py-0.5 transition-all duration-300 tracking-wide font-medium border-slate-200 text-slate-500 hover:bg-slate-50"
+                >
+                  Free
+                </Badge>
+              )
             )}
           </div>
 

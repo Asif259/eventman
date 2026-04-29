@@ -5,6 +5,7 @@ import { useConvexMutation } from "@/hooks/use-convex-query";
 import { format } from "date-fns";
 import { CheckCircle, Circle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import ProBadge from "@/components/pro-badge";
 
 // Attendee Card Component
 export function AttendeeCard({ registration }) {
@@ -41,7 +42,10 @@ export function AttendeeCard({ registration }) {
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold mb-1">{registration.attendeeName}</h3>
+          <h3 className="font-semibold mb-1 flex items-center gap-1.5">
+            {registration.attendeeName}
+            {registration.isPro && <ProBadge size="sm" />}
+          </h3>
           <p className="text-sm text-muted-foreground mb-2">
             {registration.attendeeEmail}
           </p>

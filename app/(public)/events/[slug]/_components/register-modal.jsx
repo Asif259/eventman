@@ -61,6 +61,7 @@ export default function RegisterModal({ event, isOpen, onClose, isPro }) {
         eventId: event._id,
         attendeeName: name.trim(),
         attendeeEmail: email.trim(),
+        isPro: isPro || false,
       });
 
       if (!registrationId) {
