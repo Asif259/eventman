@@ -29,7 +29,7 @@ export default function Header() {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-xl z-20 border-b border-border/50 shadow-sm transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
           {/* Logo & Badge Group */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
@@ -71,7 +71,7 @@ export default function Header() {
             <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 pl-5">
             {/* Auth buttons — desktop */}
             <Authenticated>
               <Link href="/create-event" className="hidden md:block ml-2 text-sm xl:text-lg tracking-wider">
